@@ -24,6 +24,14 @@
 
 main {
   flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+  color: white;
+}
+
+h1 {
+  font-size: 32px;
 }
 
 footer {
