@@ -17,10 +17,6 @@
   width: auto;
 }
 
-.navbar > .container-fluid {
-  justify-content: space-around !important;
-}
-
 .mainContentWrapper {
   height: 100%;
   background-color: #0e191e;
@@ -35,7 +31,8 @@ footer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0px 18px;
 }
 
 .contributions {
