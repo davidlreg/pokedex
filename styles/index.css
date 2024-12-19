@@ -1,0 +1,50 @@
+.contentWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.pokedexMainIcon {
+  height: 64px;
+  width: auto;
+}
+
+.navbar > .container-fluid {
+  justify-content: space-around !important;
+}
+
+.mainContentWrapper {
+  height: 100%;
+  background-color: #0e191e;
+}
+
+main {
+  flex: 1;
+}
+
+footer {
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.contributions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.copyright {
+  color: white;
+  margin: 0 !important;
+}
