@@ -1,7 +1,7 @@
-function pokemonCardTemplate(name, url) {
+function pokemonCardTemplate(number, name, url) {
   return `
      <div class="pokemonCard">
-      <h2>${name}</h2>
+      <h2><span>#${number}</span> ${name}</h2>
       <a href="${url}" target="_blank">Details</a>
     </div>
     `;

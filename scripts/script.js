@@ -41,6 +41,7 @@ async function fetchPokedexData() {
 
 function renderPokemonCards(pokemonList) {
   let container = document.getElementById("content");
+  let pokemonCounter = 1;
 
   if (!container) {
     console.error("Element mit ID 'content' nicht gefunden.");
@@ -50,7 +51,12 @@ function renderPokemonCards(pokemonList) {
   container.classList.add("pokemonContainer");
 
   for (let i = 0; i < 25 && i < pokemonList.length; i++) {
-    const pokemon = pokemonList[i];
-    container.innerHTML += pokemonCardTemplate(pokemon.name, pokemon.url);
+    let pokemon = pokemonList[i];
+    container.innerHTML += pokemonCardTemplate(
+      pokemonCounter,
+      pokemon.name,
+      pokemon.url
+    );
+    pokemonCounter++;
   }
 }
