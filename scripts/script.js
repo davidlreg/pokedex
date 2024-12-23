@@ -54,24 +54,24 @@ async function fetchPokedexData() {
 
 async function renderPokemonCards(pokemonList) {
   let container = document.getElementById("content");
-  let pokemonCounter = 1;
 
   container.classList.add("pokemonContainer");
 
+  // Neue Pokémon-Karten hinzufügen
   for (let i = 0; i < 25 && i < pokemonList.length; i++) {
     let pokemon = pokemonList[i];
 
     // Pokémon-Karte rendern
     container.innerHTML += pokemonCardTemplate(
-      pokemonCounter,
+      pokemonStartCount,
       pokemon.name,
       pokemon.url
     );
 
-    // Typen abrufen und in der Konsole ausgeben
-    await fetchPokemonDetails(pokemon.url, pokemonCounter);
+    // Details (Typen und Bilder) laden
+    await fetchPokemonDetails(pokemon.url, pokemonStartCount);
 
-    pokemonCounter++;
+    pokemonStartCount++;
   }
 }
 
@@ -117,5 +117,41 @@ function insertPokemonImage(imageUrl, cardId) {
   } else {
     console.warn(`Kein Bild für Karte ${cardId} verfügbar.`);
     pokemonPictureContainer.innerHTML = `<p>Bild nicht verfügbar</p>`;
+  }
+}
+
+async function renderNextPokemon() {
+  const offset = pokemonStartCount - 1; // Start-Index berechnen
+  const limit = 25; // Anzahl der Pokémon pro Seite
+
+  // API-URL mit Offset und Limit
+  const nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+
+  try {
+    const nextPokemonResponse = await fetch(nextPokemonUrl);
+
+    if (!nextPokemonResponse.ok) {
+      throw new Error(`HTTP-Fehler! Status: ${nextPokemonResponse.status}`);
+    }
+
+    const data = await nextPokemonResponse.json();
+
+    // Alte Karten entfernen
+    clearPokemonCards();
+
+    // Nächste Pokémon laden und rendern
+    renderPokemonCards(data.results);
+  } catch (error) {
+    console.error("Fehler beim Laden der nächsten Pokémon:", error);
+  }
+}
+
+function clearPokemonCards() {
+  const container = document.getElementById("content");
+
+  if (container) {
+    container.innerHTML = ""; // Entferne alle Karten
+  } else {
+    console.error("Container mit ID 'content' nicht gefunden.");
   }
 }
