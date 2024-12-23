@@ -118,7 +118,6 @@ async function filterPokemon() {
   const allPokemonData = await fetch(BASE_URL);
   const data = await allPokemonData.json();
 
-  // Wenn kein Suchbegriff vorhanden ist, zeige alle Pokémon
   if (!searchInput) {
     renderPokemonCards(data.results);
     return;
@@ -127,12 +126,23 @@ async function filterPokemon() {
     return;
   }
 
-  // Pokémon filtern basierend auf dem Suchbegriff
   const filteredPokemon = data.results.filter((pokemon) =>
     pokemon.name.toLowerCase().includes(searchInput)
   );
 
-  // Ergebnis in den DOM rendern
-  clearPokemonCards();
-  renderPokemonCards(filteredPokemon);
+  if (filteredPokemon.length === 0) {
+    showNoResultsMessage(searchInput); // Zeigt die Meldung an, wenn keine Ergebnisse vorhanden sind
+  } else {
+    clearPokemonCards();
+    renderPokemonCards(filteredPokemon);
+  }
+}
+
+function showNoResultsMessage(searchInput) {
+  const container = document.getElementById("content");
+  if (container) {
+    container.innerHTML = `<p class="no-results-message">No Pokémon found that match “${searchInput}”.</p>`;
+  } else {
+    console.error("Container mit ID 'content' nicht gefunden.");
+  }
 }
