@@ -13,6 +13,7 @@
     />
     <link rel="stylesheet" href="./styles/index.css" />
     <link rel="stylesheet" href="./styles/globalComponentStyling.css" />
+    <link rel="stylesheet" href="styles/backgroundColors.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -46,7 +47,13 @@
       <main class="mainContentWrapper fullWidth">
         <h1 id="totalPokemonCount">Total Pokemon Count: `${data.count}`</h1>
         <div class="content" id="content"></div>
-        <button type="button" class="btn btn-primary btn-lg" onclick="renderNextPokemon()">Load more</button>
+        <button
+          type="button"
+          class="btn btn-primary btn-lg"
+          onclick="renderNextPokemon()"
+        >
+          Load more
+        </button>
       </main>
 
       <footer class="bg-dark fullWidth customHeight">

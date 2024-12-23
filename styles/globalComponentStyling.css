@@ -39,6 +39,11 @@ a:active {
   padding: 16px;
   text-align: center;
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
 
 .pokemonCard:hover {
@@ -49,7 +54,7 @@ a:active {
 .pokemonCard h2 {
   font-size: 18px;
   color: #333;
-  margin-bottom: 8px;
+  margin-bottom: 0 !important;
   text-transform: capitalize;
 }
 

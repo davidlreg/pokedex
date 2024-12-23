@@ -83,7 +83,8 @@ async function fetchPokemonDetails(pokemonUrl, cardId) {
   const pokemonImg = pokemonDetails.sprites.front_default;
 
   insertTypeIcons(types, cardId);
-  insertPokemonImage(pokemonImg, cardId);
+
+  insertPokemonImage(pokemonImg, cardId, types);
 }
 
 function insertTypeIcons(types, cardId) {
@@ -104,7 +105,7 @@ function insertTypeIcons(types, cardId) {
   });
 }
 
-function insertPokemonImage(imageUrl, cardId) {
+function insertPokemonImage(imageUrl, cardId, types) {
   const pokemonPictureContainer = document.querySelector(`#picture-${cardId}`);
 
   if (!pokemonPictureContainer) {
@@ -113,7 +114,7 @@ function insertPokemonImage(imageUrl, cardId) {
   }
 
   if (imageUrl) {
-    pokemonPictureContainer.innerHTML = `<img src="${imageUrl}" alt="Pokemon Image" class="pokemon-img">`;
+    pokemonPictureContainer.innerHTML = `<img src="${imageUrl}" alt="Pokemon Image" class="bg_${types[0]}">`;
   } else {
     console.warn(`Kein Bild für Karte ${cardId} verfügbar.`);
     pokemonPictureContainer.innerHTML = `<p>Bild nicht verfügbar</p>`;
