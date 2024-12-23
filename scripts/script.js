@@ -4,7 +4,14 @@ const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
 
 function init() {
   fetchPokedexData();
-  console.log("Pokedex geladen!");
+  document
+    .getElementById("pokemonSearch")
+    .addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault(); // Verhindert das Standard-Verhalten des Formulars
+        filterPokemon(); // filterPokemon Funktion aufrufen
+      }
+    });
 }
 
 async function fetchPokedexData() {
@@ -77,7 +84,17 @@ function insertPokemonImage(imageUrl, cardId, types) {
 async function renderNextPokemon() {
   const offset = pokemonStartCount - 1;
   const limit = 25;
-  const nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+  const searchInput = document
+    .getElementById("pokemonSearch")
+    .value.toLowerCase();
+  let nextPokemonUrl;
+
+  if (searchInput) {
+    nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}&name=${searchInput}`;
+  } else {
+    nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
+  }
+
   const nextPokemonResponse = await fetch(nextPokemonUrl);
   const data = await nextPokemonResponse.json();
 
@@ -92,4 +109,30 @@ function clearPokemonCards() {
   } else {
     console.error("Container mit ID 'content' nicht gefunden.");
   }
+}
+
+async function filterPokemon() {
+  const searchInput = document
+    .getElementById("pokemonSearch")
+    .value.toLowerCase();
+  const allPokemonData = await fetch(BASE_URL);
+  const data = await allPokemonData.json();
+
+  // Wenn kein Suchbegriff vorhanden ist, zeige alle Pokémon
+  if (!searchInput) {
+    renderPokemonCards(data.results);
+    return;
+  } else if (searchInput.length < 3) {
+    alert("At least 3 letters are required for the search.");
+    return;
+  }
+
+  // Pokémon filtern basierend auf dem Suchbegriff
+  const filteredPokemon = data.results.filter((pokemon) =>
+    pokemon.name.toLowerCase().includes(searchInput)
+  );
+
+  // Ergebnis in den DOM rendern
+  clearPokemonCards();
+  renderPokemonCards(filteredPokemon);
 }

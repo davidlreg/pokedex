@@ -29,16 +29,26 @@
         <div class="container-fluid">
           <div class="logoWrapper">
             <img src="assets/img/pokedex.png" class="pokedexMainIcon" />
-            <a class="navbar-brand">My Pokedex API Project</a>
+            <a
+              href="#"
+              onclick="window.location.reload(false);"
+              class="navbar-brand"
+              >My Pokedex API Project</a
+            >
           </div>
           <form class="d-flex">
             <input
               class="form-control me-2"
-              type="search"
-              placeholder="Search"
+              type="text"
+              placeholder="Search for Pokémon..."
               aria-label="Search"
+              id="pokemonSearch"
             />
-            <button class="btn btn-outline-success" type="submit">
+            <button
+              type="button"
+              class="btn btn-primary btn-lg"
+              onclick="filterPokemon()"
+            >
               Search
             </button>
           </form>
