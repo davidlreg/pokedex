@@ -130,8 +130,10 @@ async function filterPokemon() {
     pokemon.name.toLowerCase().includes(searchInput)
   );
 
-  if (filteredPokemon.length === 0) {
-    showNoResultsMessage(searchInput); // Zeigt die Meldung an, wenn keine Ergebnisse vorhanden sind
+  const limitedPokemon = filteredPokemon.slice(0, 15);
+
+  if (limitedPokemon.length === 0) {
+    showNoResultsMessage(searchInput);
   } else {
     clearPokemonCards();
     renderPokemonCards(filteredPokemon);
