@@ -30,7 +30,7 @@ async function loadAndShowPkm() {
 
 function showLoadingSpinner() {
   let documentRef = document.getElementById("content");
-  documentRef.innerHTML = "";
+  clearPokemonCards();
   documentRef.innerHTML = renderLoadingSpinner();
 }
 
@@ -52,7 +52,7 @@ async function fetchPokedexData() {
 
 async function renderPokemonCards(pokemonList) {
   const container = document.getElementById("content");
-  container.innerHTML = "";
+  clearPokemonCards();
   container.classList.add("pokemonContainer");
 
   for (let i = 0; i < 25 && i < pokemonList.length; i++) {
@@ -65,22 +65,17 @@ async function renderPokemonCards(pokemonList) {
 
 async function fetchPokemonDetails(pokemonUrl, cardId) {
   const responsePokemonDetails = await fetch(pokemonUrl);
-
   const pokemonDetails = await responsePokemonDetails.json();
   const types = pokemonDetails.types.map((type) => type.type.name);
   const pokemonImg = pokemonDetails.sprites.front_default;
 
   insertTypeIcons(types, cardId);
-
   insertPokemonImage(pokemonImg, cardId, types);
 }
 
 function insertTypeIcons(types, cardId) {
   const typeContainer = document.querySelector(`#types-${cardId}`);
-  if (!typeContainer) {
-    console.error(`Container für Typen nicht gefunden: #types-${cardId}`);
-    return;
-  }
+
   types.forEach((type) => {
     if (typeToIcon[type]) {
       typeContainer.innerHTML += `<img src="${typeToIcon[type]}" alt="${type} Type" class="type-icon">`;
@@ -92,10 +87,7 @@ function insertTypeIcons(types, cardId) {
 
 function insertPokemonImage(imageUrl, cardId, types) {
   const pokemonPictureContainer = document.querySelector(`#picture-${cardId}`);
-  if (!pokemonPictureContainer) {
-    console.error(`Container für Typen nicht gefunden: #types-${cardId}`);
-    return;
-  }
+
   if (imageUrl) {
     pokemonPictureContainer.innerHTML = `<img src="${imageUrl}" alt="Pokemon Image" class="bg_${types[0]} fullWidth">`;
   } else {
@@ -126,17 +118,15 @@ async function renderNextPokemon() {
   clearPokemonCards();
   await renderPokemonCards(data.results);
 
-  hideLoadingSpinner();
+  setTimeout(() => {
+    hideLoadingSpinner();
+  }, 5000); // 5000 Millisekunden = 5 Sekunden
   showLoadMoreButton();
 }
 
 function clearPokemonCards() {
   const container = document.getElementById("content");
-  if (container) {
-    container.innerHTML = "";
-  } else {
-    console.error("Container mit ID 'content' nicht gefunden.");
-  }
+  container.innerHTML = "";
 }
 
 async function filterPokemon() {
