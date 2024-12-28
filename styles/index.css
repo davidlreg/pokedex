@@ -1,5 +1,6 @@
 .contentWrapper {
   width: 100%;
+  min-height: 100vh;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -19,18 +20,17 @@
 
 .mainContentWrapper {
   height: 100%;
-  background-color: #0e191e;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 main {
   flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
   padding: 32px;
   color: white;
+  background-color: #0e191e;
   gap: 32px;
 }
 

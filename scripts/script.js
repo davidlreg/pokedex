@@ -3,7 +3,7 @@ let pokemonStartCount = 1;
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
 
 function init() {
-  fetchPokedexData();
+  loadAndShowPkm();
   document
     .getElementById("pokemonSearch")
     .addEventListener("keydown", function (event) {
@@ -14,23 +14,45 @@ function init() {
     });
 }
 
+async function loadAndShowPkm() {
+  hideLoadMoreButton();
+  showLoadingSpinner();
+
+  const pokemonList = await fetchPokedexData();
+
+  // Verzögerung (5 Sekunden)
+  setTimeout(() => {
+    hideLoadingSpinner();
+    renderPokemonCards(pokemonList);
+    showLoadMoreButton();
+  }, 5000); // 5000 Millisekunden = 5 Sekunden
+}
+
+function showLoadingSpinner() {
+  let documentRef = document.getElementById("content");
+  documentRef.innerHTML = "";
+  documentRef.innerHTML = renderLoadingSpinner();
+}
+
+function hideLoadingSpinner() {
+  const loadingSpinner = document.getElementById("loadingSpinner");
+  if (loadingSpinner) {
+    loadingSpinner.remove();
+  }
+}
+
 async function fetchPokedexData() {
   const response = await fetch(BASE_URL);
   const data = await response.json();
 
   let totalPokemonCountElement = document.getElementById("totalPokemonCount");
-  if (totalPokemonCountElement) {
-    totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${data.count}`;
-  } else {
-    console.warn("Element mit ID 'totalPokemonCount' nicht gefunden.");
-  }
-
-  renderPokemonCards(data.results);
+  totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${data.count}`;
+  return data.results;
 }
 
 async function renderPokemonCards(pokemonList) {
-  let container = document.getElementById("content");
-
+  const container = document.getElementById("content");
+  container.innerHTML = "";
   container.classList.add("pokemonContainer");
 
   for (let i = 0; i < 25 && i < pokemonList.length; i++) {
@@ -82,6 +104,9 @@ function insertPokemonImage(imageUrl, cardId, types) {
 }
 
 async function renderNextPokemon() {
+  hideLoadMoreButton();
+  showLoadingSpinner();
+
   const offset = pokemonStartCount - 1;
   const limit = 25;
   const searchInput = document
@@ -99,7 +124,10 @@ async function renderNextPokemon() {
   const data = await nextPokemonResponse.json();
 
   clearPokemonCards();
-  renderPokemonCards(data.results);
+  await renderPokemonCards(data.results);
+
+  hideLoadingSpinner();
+  showLoadMoreButton();
 }
 
 function clearPokemonCards() {
@@ -146,5 +174,27 @@ function showNoResultsMessage(searchInput) {
     container.innerHTML = `<p class="no-results-message">No Pokémon found that match “${searchInput}”.</p>`;
   } else {
     console.error("Container mit ID 'content' nicht gefunden.");
+  }
+}
+
+async function openPokemonDetails(number) {
+  const currentPokemonInfoUrl = "https://pokeapi.co/api/v2/pokemon/";
+  const response = await fetch(currentPokemonInfoUrl + number);
+  const currentPokemonDetails = response.json();
+
+  console.log(currentPokemonDetails);
+}
+
+function hideLoadMoreButton() {
+  const button = document.getElementById("loadMoreButton");
+  if (button) {
+    button.classList.add("hidden");
+  }
+}
+
+function showLoadMoreButton() {
+  const button = document.getElementById("loadMoreButton");
+  if (button) {
+    button.classList.remove("hidden");
   }
 }
