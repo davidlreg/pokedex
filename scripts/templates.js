@@ -4,6 +4,7 @@ function pokemonCardTemplate(number, name) {
       <h2><span>Nr.${number}</span> ${name}</h2>
       <div class="pokemonImg" id="picture-${number}"></div>
       <div class="types" id="types-${number}"></div>
+      <div class="typeDescription" id="typeDescription-${number}"></div>
       <button type="button" class="btn btn-secondary" onclick="openPokemonDetails(${number})">More Info</button>
     </div>
     `;

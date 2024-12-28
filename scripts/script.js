@@ -20,12 +20,11 @@ async function loadAndShowPkm() {
 
   const pokemonList = await fetchPokedexData();
 
-  // Verzögerung (5 Sekunden)
-  setTimeout(() => {
+  setTimeout(async () => {
     hideLoadingSpinner();
-    renderPokemonCards(pokemonList);
-    showLoadMoreButton();
-  }, 5000); // 5000 Millisekunden = 5 Sekunden
+    await renderPokemonCards(pokemonList);
+    showLoadMoreButton(); // Button einblenden, wenn fertig
+  }, 5000);
 }
 
 function showLoadingSpinner() {
@@ -69,30 +68,25 @@ async function fetchPokemonDetails(pokemonUrl, cardId) {
   const types = pokemonDetails.types.map((type) => type.type.name);
   const pokemonImg = pokemonDetails.sprites.front_default;
 
-  insertTypeIcons(types, cardId);
+  insertTypes(types, cardId);
   insertPokemonImage(pokemonImg, cardId, types);
 }
 
-function insertTypeIcons(types, cardId) {
+function insertTypes(types, cardId) {
   const typeContainer = document.querySelector(`#types-${cardId}`);
+  const typeDescriptionContainer = document.querySelector(`#typeDescription-${cardId}`
+  );
 
   types.forEach((type) => {
-    if (typeToIcon[type]) {
-      typeContainer.innerHTML += `<img src="${typeToIcon[type]}" alt="${type} Type" class="type-icon">`;
-    } else {
-      console.warn(`Kein Symbol für Typ "${type}" gefunden.`);
-    }
+    const capitalizedType = type.charAt(0).toUpperCase() + type.slice(1);
+    typeContainer.innerHTML += `<img src="${typeToIcon[type]}" alt="${capitalizedType} Type" class="type-icon">`;
+    typeDescriptionContainer.innerHTML += `<p class="typeDescription">${capitalizedType}</p>`;
   });
 }
 
 function insertPokemonImage(imageUrl, cardId, types) {
   const pokemonPictureContainer = document.querySelector(`#picture-${cardId}`);
-
-  if (imageUrl) {
-    pokemonPictureContainer.innerHTML = `<img src="${imageUrl}" alt="Pokemon Image" class="bg_${types[0]} fullWidth">`;
-  } else {
-    console.warn(`Kein Bild für Karte ${cardId} verfügbar.`);
-  }
+  pokemonPictureContainer.innerHTML = `<img src="${imageUrl}" alt="Pokemon Image" class="bg_${types[0]} fullWidth">`;
 }
 
 async function renderNextPokemon() {
