@@ -143,8 +143,6 @@ async function renderNextPokemon() {
   const data = await response.json();
   const detailedPokemonList = await fetchAllPokemonDetails(data.results);
 
-  const container = document.getElementById("content");
-
   // Pokémon-Karten ersetzen
   renderPokemonCards(detailedPokemonList);
 
