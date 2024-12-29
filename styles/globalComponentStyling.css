@@ -89,3 +89,27 @@ a:active {
   color: black;
   margin: 0;
 }
+
+.detailedPokemonCardWrapper {
+  width: 600px;
+  height: 800px;
+  background-color: green;
+  color: black;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px;
+}
+
+.nameAndPkmNumber {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.pkmTypes {
+  display: flex;
+  gap: 16px;
+}
