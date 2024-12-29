@@ -1,7 +1,7 @@
-function pokemonCardTemplate(number, name) {
+function pokemonCardTemplate(number, name, id) {
   return `
      <div class="pokemonCard">
-      <h2><span>Nr.${number}</span> ${name}</h2>
+      <h2><span>Nr.${id}</span> ${name}</h2>
       <div class="pokemonImg" id="picture-${number}"></div>
       <div class="types" id="types-${number}"></div>
       <div class="typeDescription" id="typeDescription-${number}"></div>

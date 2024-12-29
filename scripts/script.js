@@ -19,8 +19,6 @@ async function loadAndShowPkm() {
   showLoadingSpinner();
 
   const pokemonList = await fetchPokedexData();
-  console.log(pokemonList);
-
   const detailedPokemonList = await fetchAllPokemonDetails(pokemonList);
 
   hideLoadingSpinner();
@@ -42,12 +40,9 @@ async function fetchAllPokemonDetails(pokemonList) {
       .then((data) => ({
         name: pokemon.name,
         types: data.types ? data.types.map((type) => type.type.name) : [],
-        imageUrl: data.sprites.front_default || "default_image_url.png",
+        imageUrl: data.sprites.front_default,
+        id: data.id,
       }))
-      .catch((error) => {
-        console.error(`Failed to fetch details for ${pokemon.name}:`, error);
-        return null; // Fehlerhafte Pokémon ignorieren
-      })
   );
 
   return (await Promise.all(fetchPromises)).filter(
@@ -67,7 +62,12 @@ function renderPokemonCards(detailedPokemonList) {
 
   detailedPokemonList.slice(0, 25).forEach((pokemonDetails, index) => {
     const cardId = pokemonStartCount + index;
-    container.innerHTML += pokemonCardTemplate(cardId, pokemonDetails.name);
+
+    container.innerHTML += pokemonCardTemplate(
+      cardId,
+      pokemonDetails.name,
+      pokemonDetails.id
+    ); // ID direkt übergeben
     insertTypes(pokemonDetails.types, cardId);
     insertPokemonImage(pokemonDetails.imageUrl, cardId, pokemonDetails.types);
   });
