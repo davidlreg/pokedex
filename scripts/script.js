@@ -134,18 +134,22 @@ async function filterPokemon() {
   const data = await allPokemonData.json();
 
   // Pokémon anhand des Suchbegriffs filtern
-  const filteredPokemon = data.results.filter((pokemon) =>
-    pokemon.name.toLowerCase().includes(searchInput)
-  );
+  const filteredPokemon = data.results
+    .filter((pokemon) => pokemon.name.toLowerCase().includes(searchInput))
+    .slice(0, 10); // Nur die ersten 10 Ergebnisse
 
   // Keine Ergebnisse gefunden
   if (filteredPokemon.length === 0) {
     showNoResultsMessage(searchInput);
+    showGoBackToStartButton();
+    hideLoadMoreButton();
     return;
   }
 
   // Detaillierte Daten der gefilterten Pokémon abrufen und rendern
   const detailedPokemonList = await fetchAllPokemonDetails(filteredPokemon);
+  hideLoadMoreButton();
+  showGoBackToStartButton(); // Zeige den Button, da eine Suche erfolgreich war
   renderSearchResults(detailedPokemonList);
 }
 
@@ -213,7 +217,7 @@ async function openPokemonDetails(number) {
 }
 */
 
-// Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button
+// Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button & Go back to Start Button
 
 function showLoadingSpinner() {
   let documentRef = document.getElementById("content");
@@ -242,6 +246,20 @@ function showLoadMoreButton() {
   }
 }
 
+function showGoBackToStartButton() {
+  const button = document.getElementById("goBackToStartBtn");
+  if (button) {
+    button.classList.remove("hidden"); // Entfernt die "hidden"-Klasse, um den Button anzuzeigen
+  }
+}
+
+function hideGoBackToStartButton() {
+  const button = document.getElementById("goBackToStartBtn");
+  if (button) {
+    button.classList.add("hidden"); // Fügt die "hidden"-Klasse hinzu, um den Button zu verstecken
+  }
+}
+
 // Funktion zum löschen aller Elemente im Container "content" und um zur Startseite zurückzukehren
 
 function clearPokemonCards() {
@@ -250,5 +268,9 @@ function clearPokemonCards() {
 }
 
 function resetToAllPokemon() {
+  hideGoBackToStartButton(); // Verstecke den "Zurück"-Button
+  showLoadMoreButton(); // Zeige den "Load More"-Button wieder an
+  clearPokemonCards(); // Alte Karten löschen
+  pokemonStartCount = 1; // Zähler zurücksetzen
   renderPokemonCards(); // Zeige alle Pokémon aus `loadedPkm`
 }
