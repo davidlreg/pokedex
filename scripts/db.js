@@ -20,3 +20,5 @@ const typeToIcon = {
 };
 
 let loadedPkm = [];
+
+let totalPokemonCount = [];
