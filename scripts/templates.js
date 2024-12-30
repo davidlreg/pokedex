@@ -5,7 +5,7 @@ function pokemonCardTemplate(number, name, id) {
       <div class="pokemonImg" id="picture-${number}"></div>
       <div class="types" id="types-${number}"></div>
       <div class="typeDescription" id="typeDescription-${number}"></div>
-      <button type="button" class="btn btn-secondary" onclick="openPokemonDetails(${number})">More Info</button>
+      <button type="button" class="btn btn-secondary" onclick="openPokemonDetails(${id})">More Info</button>
     </div>
     `;
 }
@@ -51,20 +51,39 @@ function renderLoadingSpinner() {
   `;
 }
 
-function renderDetailsPokemonCard(currentPokemonDetails, number) {
+function renderDetailsPokemonCard(
+  currentPokemonDetails,
+  id,
+  types,
+  totalPokemonCount
+) {
+  const typesHTML = types
+    .map(
+      (type) =>
+        `<p class="type">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`
+    )
+    .join("");
+
   return `
-  
   <div class="detailedPokemonCardWrapper">
+          <div class="closeButtonContainer">
+            <span class="material-symbols-outlined">
+              close
+            </span></div>
           <div class="nameAndPkmNumber">
-            <h2>${currentPokemonDetails.name}</h2>
-            <p>Nr.${number}</p>
+            <h2>${
+              currentPokemonDetails.name.charAt(0).toUpperCase() +
+              currentPokemonDetails.name.slice(1)
+            }</h2>
+            <p>Nr.${id}</p>
           </div>
           <div class="pkmTypes">
-            <p>TYPE 1</p>
-            <p>TYPE 2</p>
+            ${typesHTML} <!-- Dynamisch generierte Typen -->
           </div>
           <div class="pkmImage">
-            <img src="" />
+            <img src="${currentPokemonDetails.sprites.front_default}" alt="${
+    currentPokemonDetails.name
+  }" />
           </div>
           <div class="detailedPkmInformation">
             <a href="#">About</a>
@@ -72,16 +91,14 @@ function renderDetailsPokemonCard(currentPokemonDetails, number) {
             <a href="#">Gender</a>
             <a href="#">Shiny</a>
           </div>
-          <div class="informationBox">
-            <p>INFORMATIN GOES HERE</p>
-          </div>
+          <div class="informationBox"></div>
           <div class="skipButtons">
-            <a><span class="material-symbols-outlined"> arrow_back </span></a>
-            <a
+            <a onclick="showpreviousPkm"><span class="material-symbols-outlined"> arrow_back </span></a>
+            <span>${id} / ${totalPokemonCount}</span>
+            <a onclick="showNextPkm"
               ><span class="material-symbols-outlined"> arrow_forward </span></a
             >
           </div>
         </div>
-
   `;
 }

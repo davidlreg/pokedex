@@ -1,4 +1,5 @@
 let pokemonStartCount = 1;
+let totalPokemonCount = [];
 const limit = 25; // Anzahl der Pokémon pro Seite
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
@@ -21,6 +22,8 @@ async function loadAndShowPkm() {
 
   await loadAndPrepareData(); // Daten laden und in `loadedPkm` speichern
   renderPokemonCards(); // Karten aus `loadedPkm` rendern
+
+  renderTotalPokemonCount(loadedPkm); // Gesamtzahl der Pokémon aktualisieren
 
   hideLoadingSpinner();
   showLoadMoreButton();
@@ -91,11 +94,6 @@ function insertPokemonImage(imageUrl, cardId, types) {
 }
 
 function insertTypes(types, cardId) {
-  if (!types || types.length === 0) {
-    console.warn(`No types found for cardId: ${cardId}`);
-    return;
-  }
-
   const typeContainer = document.querySelector(`#types-${cardId}`);
   const typeDescriptionContainer = document.querySelector(
     `#typeDescription-${cardId}`
@@ -111,6 +109,8 @@ function insertTypes(types, cardId) {
 function renderTotalPokemonCount(pokemonList) {
   let totalPokemonCountElement = document.getElementById("totalPokemonCount");
   totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${pokemonList.length}`;
+
+  totalPokemonCount.push(pokemonList.length);
 }
 
 // Funktionen um nach einzelnen Pokemon zu suchen und ein User-Feedback zu erhalten wenn kein Pokemon mit dem Suchbegriff übereinstimmt
@@ -200,22 +200,25 @@ async function renderNextPokemon() {
 
 // Funktion um mehr Informationen über einzelne Pokemon anzeigen zu lassen
 
-/*
 async function openPokemonDetails(number) {
   const mainContainer = document.getElementById("mainContainer");
   const currentPokemonInfoUrl = `https://pokeapi.co/api/v2/pokemon/${number}`;
   const response = await fetch(currentPokemonInfoUrl);
   const currentPokemonDetails = await response.json();
 
+  // Extrahiere die Typen aus den Daten
+  const types = currentPokemonDetails.types
+    ? currentPokemonDetails.types.map((type) => type.type.name)
+    : [];
+
   mainContainer.innerHTML = "";
   mainContainer.innerHTML = renderDetailsPokemonCard(
     currentPokemonDetails,
-    number
+    number,
+    types,
+    totalPokemonCount
   );
-
-  console.log(currentPokemonDetails);
 }
-*/
 
 // Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button & Go back to Start Button
 

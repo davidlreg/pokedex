@@ -91,25 +91,96 @@ a:active {
 }
 
 .detailedPokemonCardWrapper {
-  width: 600px;
+  width: 550px;
   height: 800px;
-  background-color: green;
+  background-color: #ffffff;
   color: black;
   z-index: 5;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 18px;
+  border-radius: 32px;
+  gap: 12px;
+}
+.closeButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .nameAndPkmNumber {
+  width: 100%;
+  color: #000;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100%;
+  align-items: center;
+}
+
+.nameAndPkmNumber > h2 {
+  font-size: 38px;
+  margin: 0;
+}
+
+.nameAndPkmNumber > p {
+  margin: 0;
 }
 
 .pkmTypes {
+  width: 100%;
+  color: #000;
   display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   gap: 16px;
+}
+
+.pkmTypes > P {
+  padding: 4px 10px;
+  border: 1px solid gray;
+  border-radius: 12px;
+  margin: 0;
+}
+
+.pkmImage > img {
+  width: 250px;
+}
+
+.detailedPkmInformation > a {
+  color: #000;
+  margin: 0;
+}
+
+.informationBox > p {
+  color: #000;
+  margin: 0;
+}
+
+.informationBox {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.detailedPkmInformation {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.skipButtons {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
 }
