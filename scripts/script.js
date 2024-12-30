@@ -1,5 +1,4 @@
 let pokemonStartCount = 1;
-let loadedPkm = [];
 const limit = 25; // Anzahl der Pokémon pro Seite
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
