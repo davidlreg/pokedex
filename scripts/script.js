@@ -1,4 +1,5 @@
 let pokemonStartCount = 1;
+const limit = 25; // Anzahl der Pokémon pro Seite
 
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
 
@@ -27,6 +28,8 @@ async function loadAndShowPkm() {
   showLoadMoreButton();
 }
 
+// Funktionen zum abrufen aller relevanten Informationen
+
 async function fetchPokedexData() {
   const response = await fetch(BASE_URL);
   const data = await response.json();
@@ -50,10 +53,7 @@ async function fetchAllPokemonDetails(pokemonList) {
   );
 }
 
-function renderTotalPokemonCount(pokemonList) {
-  let totalPokemonCountElement = document.getElementById("totalPokemonCount");
-  totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${pokemonList.length}`;
-}
+// Funktionen zum rendern der Anzeige der Gesamt-Anzahl der Pokemon, der Pokemon-Karten sowie den dazugehörigen Details
 
 function renderPokemonCards(detailedPokemonList) {
   const container = document.getElementById("content");
@@ -96,6 +96,13 @@ function insertTypes(types, cardId) {
   });
 }
 
+function renderTotalPokemonCount(pokemonList) {
+  let totalPokemonCountElement = document.getElementById("totalPokemonCount");
+  totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${pokemonList.length}`;
+}
+
+// Funktionen um nach einzelnen Pokemon zu suchen und ein User-Feedback zu erhalten wenn kein Pokemon mit dem Suchbegriff übereinstimmt
+
 async function filterPokemon() {
   const searchInput = document
     .getElementById("pokemonSearch")
@@ -129,12 +136,13 @@ function showNoResultsMessage(searchInput) {
   container.innerHTML = `<p class="no-results-message">No Pokémon found that match “${searchInput}”.</p>`;
 }
 
+// Funktion um die nächsten 25 Pokemon aus der API abzurufen und ins DOM zu rendern
+
 async function renderNextPokemon() {
   hideLoadMoreButton();
   showLoadingSpinner();
 
-  const limit = 25; // Anzahl der Pokémon pro Seite
-  const offset = pokemonStartCount - 1; // Aktueller Startpunkt
+  const offset = pokemonStartCount + 24; // Aktueller Startpunkt
 
   const nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
   console.log(`Lade Pokémon ab Offset ${offset} mit Limit ${limit}`);
