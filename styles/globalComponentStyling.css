@@ -44,6 +44,7 @@ a:active {
   border: 2px solid #ddd;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  height: 370px;
   width: 200px;
   padding: 16px;
   text-align: center;
@@ -146,6 +147,24 @@ a:active {
 
 .pkmTypes > P {
   padding: 4px 10px;
+  border: 1px solid gray;
+  border-radius: 12px;
+  margin: 0;
+}
+
+.pkmAbilities {
+  width: 100%;
+  color: #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+}
+
+.pkmAbilities > p {
+  font-size: 14px;
+  padding: 2px 5px;
   border: 1px solid gray;
   border-radius: 12px;
   margin: 0;

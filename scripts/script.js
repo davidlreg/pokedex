@@ -47,6 +47,9 @@ async function fetchAllPokemonDetails(pokemonList) {
         types: data.types ? data.types.map((type) => type.type.name) : [],
         imageUrl: data.sprites.front_default,
         id: data.id,
+        abilities: data.abilities
+          ? data.abilities.map((ability) => ability.ability.name)
+          : [], // Fähigkeiten hinzufügen
       }))
   );
 
@@ -205,6 +208,11 @@ async function openPokemonDetails(number) {
     ? currentPokemonDetails.types.map((type) => type.type.name)
     : [];
 
+  // Extrahiere die Abilites aus den Daten
+  const abilities = currentPokemonDetails.abilities
+    ? currentPokemonDetails.abilities.map((abilities) => abilities.ability.name)
+    : [];
+
   // Setze den aktuellen Index für Navigation
   currentPokemonIndex = loadedPkm.findIndex((pokemon) => pokemon.id === number);
 
@@ -213,6 +221,7 @@ async function openPokemonDetails(number) {
     currentPokemonDetails,
     number,
     types,
+    abilities,
     totalPokemonCount
   );
 
@@ -225,8 +234,17 @@ function showPreviousPokemon() {
     const previousPokemon = loadedPkm[currentPokemonIndex];
     const { id, types } = previousPokemon;
 
+    // Abilities aus den API-Daten extrahieren
+    const abilities = previousPokemon.abilities || [];
+
     document.getElementById("detailedPkmContent").innerHTML =
-      renderDetailsPokemonCard(previousPokemon, id, types, loadedPkm.length);
+      renderDetailsPokemonCard(
+        previousPokemon,
+        id,
+        types,
+        abilities,
+        loadedPkm.length
+      );
   } else {
     alert("This is the first Pokémon!"); // Optional: Begrenzung anzeigen
   }
@@ -238,8 +256,17 @@ function showNextPokemon() {
     const nextPokemon = loadedPkm[currentPokemonIndex];
     const { id, types } = nextPokemon;
 
+    // Abilities aus den API-Daten extrahieren
+    const abilities = nextPokemon.abilities || [];
+
     document.getElementById("detailedPkmContent").innerHTML =
-      renderDetailsPokemonCard(nextPokemon, id, types, loadedPkm.length);
+      renderDetailsPokemonCard(
+        nextPokemon,
+        id,
+        types,
+        abilities,
+        loadedPkm.length
+      );
   } else {
     alert("This is the last Pokémon!"); // Optional: Begrenzung anzeigen
   }

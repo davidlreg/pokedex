@@ -55,12 +55,22 @@ function renderDetailsPokemonCard(
   currentPokemonDetails,
   id,
   types,
+  abilities,
   totalPokemonCount
 ) {
   const typesHTML = types
     .map(
       (type) =>
         `<p class="type">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`
+    )
+    .join("");
+
+  const pkmAbilities = (abilities || [])
+    .map(
+      (ability) =>
+        `<p class="abilities">${
+          ability.charAt(0).toUpperCase() + ability.slice(1)
+        }</p>`
     )
     .join("");
 
@@ -94,7 +104,9 @@ function renderDetailsPokemonCard(
     <div class="informationBox">
       <p>Height:</p>
       <p>Weight:</p>
-      <p>Abilities:</p>
+      <div class="pkmAbilities">
+      <span>Abilities:</span> ${pkmAbilities}
+      </div>
       <h5>Breeding</h5>
       <p>Gender:</p>
       <p>Egg Groups:</p>
