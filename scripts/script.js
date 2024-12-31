@@ -1,8 +1,3 @@
-let pokemonStartCount = 1;
-const limit = 25; // Anzahl der Pokémon pro Seite
-
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-
 function init() {
   loadAndShowPkm();
   document
@@ -181,7 +176,7 @@ async function renderNextPokemon() {
   hideLoadMoreButton();
   showLoadingSpinner();
 
-  const offset = pokemonStartCount + 24; // Aktueller Startpunkt
+  const offset = loadedPkm.length;
   const nextPokemonUrl = `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`;
   const response = await fetch(nextPokemonUrl);
   const data = await response.json();
@@ -197,7 +192,7 @@ async function renderNextPokemon() {
   showLoadMoreButton();
 }
 
-// Funktion um mehr Informationen über einzelne Pokemon anzeigen zu lassen
+// Funktionen um mehr Informationen über einzelne Pokemon anzeigen zu lassen
 
 async function openPokemonDetails(number) {
   const mainContainer = document.getElementById("mainContainer");
@@ -210,6 +205,9 @@ async function openPokemonDetails(number) {
     ? currentPokemonDetails.types.map((type) => type.type.name)
     : [];
 
+  // Setze den aktuellen Index für Navigation
+  currentPokemonIndex = loadedPkm.findIndex((pokemon) => pokemon.id === number);
+
   mainContainer.innerHTML = "";
   mainContainer.innerHTML = renderDetailsPokemonCard(
     currentPokemonDetails,
@@ -217,6 +215,40 @@ async function openPokemonDetails(number) {
     types,
     totalPokemonCount
   );
+}
+
+function showPreviousPokemon() {
+  if (currentPokemonIndex > 0) {
+    currentPokemonIndex--; // Index verringern
+    console.log(
+      "Navigating to previous Pokémon. Current index:",
+      currentPokemonIndex
+    );
+    const previousPokemon = loadedPkm[currentPokemonIndex];
+    const { id, types } = previousPokemon;
+
+    document.getElementById("mainContainer").innerHTML =
+      renderDetailsPokemonCard(previousPokemon, id, types, loadedPkm.length);
+  } else {
+    alert("This is the first Pokémon!"); // Optional: Begrenzung anzeigen
+  }
+}
+
+function showNextPokemon() {
+  if (currentPokemonIndex < loadedPkm.length - 1) {
+    currentPokemonIndex++; // Index erhöhen
+    console.log(
+      "Navigating to next Pokémon. Current index:",
+      currentPokemonIndex
+    );
+    const nextPokemon = loadedPkm[currentPokemonIndex];
+    const { id, types } = nextPokemon;
+
+    document.getElementById("mainContainer").innerHTML =
+      renderDetailsPokemonCard(nextPokemon, id, types, loadedPkm.length);
+  } else {
+    alert("This is the last Pokémon!"); // Optional: Begrenzung anzeigen
+  }
 }
 
 // Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button & Go back to Start Button

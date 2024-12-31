@@ -1,3 +1,10 @@
+// Globale Variablen
+let loadedPkm = [];
+let totalPokemonCount = [];
+let pokemonStartCount = 1;
+let currentPokemonIndex = 0;
+const limit = 25; // Anzahl der Pokémon pro Seite
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
 const typeToIcon = {
   bug: "./assets/img/pokemonTypes/bug.svg",
   dark: "./assets/img/pokemonTypes/dark.svg",
@@ -18,7 +25,3 @@ const typeToIcon = {
   steel: "./assets/img/pokemonTypes/steel.svg",
   water: "./assets/img/pokemonTypes/water.svg",
 };
-
-let loadedPkm = [];
-
-let totalPokemonCount = [];

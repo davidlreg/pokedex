@@ -66,39 +66,50 @@ function renderDetailsPokemonCard(
 
   return `
   <div class="detailedPokemonCardWrapper">
-          <div class="closeButtonContainer">
-            <span class="material-symbols-outlined">
-              close
-            </span></div>
-          <div class="nameAndPkmNumber">
-            <h2>${
-              currentPokemonDetails.name.charAt(0).toUpperCase() +
-              currentPokemonDetails.name.slice(1)
-            }</h2>
-            <p>Nr.${id}</p>
-          </div>
-          <div class="pkmTypes">
-            ${typesHTML} <!-- Dynamisch generierte Typen -->
-          </div>
-          <div class="pkmImage">
-            <img src="${currentPokemonDetails.sprites.front_default}" alt="${
-    currentPokemonDetails.name
-  }" />
-          </div>
-          <div class="detailedPkmInformation">
-            <a href="#">About</a>
-            <a href="#">Base Stats</a>
-            <a href="#">Gender</a>
-            <a href="#">Shiny</a>
-          </div>
-          <div class="informationBox"></div>
-          <div class="skipButtons">
-            <a onclick="showpreviousPkm"><span class="material-symbols-outlined"> arrow_back </span></a>
-            <span>${id} / ${totalPokemonCount}</span>
-            <a onclick="showNextPkm"
-              ><span class="material-symbols-outlined"> arrow_forward </span></a
-            >
-          </div>
-        </div>
-  `;
+    <!-- Schließen -->
+    <div class="closeButtonContainer">
+      <span class="material-symbols-outlined" onclick="">close</span>
+    </div>
+    <!-- Name und ID -->
+    <div class="nameAndPkmNumber">
+      <h2>${
+        currentPokemonDetails.name.charAt(0).toUpperCase() +
+        currentPokemonDetails.name.slice(1)
+      }</h2>
+      <p>Nr.${id}</p>
+    </div>
+    <!-- Typen -->
+    <div class="pkmTypes">${typesHTML}</div>
+    <!-- Bild -->
+    <div class="pkmImage">
+      <img src="${loadedPkm[id - 1].imageUrl}"}"/>
+    </div>
+    <!-- Detail-Links -->
+    <div class="detailedPkmInformation">
+      <a href="#">About</a>
+      <a href="#">Base Stats</a>
+      <a href="#">Shiny</a>
+    </div>
+    <!-- Informationsbox -->
+    <div class="informationBox">
+      <p>Height:</p>
+      <p>Weight:</p>
+      <p>Abilities:</p>
+      <h5>Breeding</h5>
+      <p>Gender:</p>
+      <p>Egg Groups:</p>
+      <p>Egg Cycle:</p>
+    </div>
+    <!-- Navigation -->
+    <div class="skipButtons">
+      <a onclick="showPreviousPokemon()">
+        <span class="material-symbols-outlined">arrow_back</span>
+      </a>
+      <span>${id} / ${totalPokemonCount}</span>
+      <a onclick="showNextPokemon()">
+        <span class="material-symbols-outlined">arrow_forward</span>
+      </a>
+    </div>
+  </div>
+`;
 }
