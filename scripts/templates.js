@@ -67,9 +67,9 @@ function renderDetailsPokemonCard(
   return `
   <div class="detailedPokemonCardWrapper">
     <!-- Schließen -->
-    <div class="closeButtonContainer">
-      <span class="material-symbols-outlined" onclick="">close</span>
-    </div>
+   <div class="closeButtonContainer">
+  <a onclick="hideDetailedPkmContainer()"><span class="material-symbols-outlined">close</span></a>
+</div>
     <!-- Name und ID -->
     <div class="nameAndPkmNumber">
       <h2>${

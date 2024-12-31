@@ -195,7 +195,7 @@ async function renderNextPokemon() {
 // Funktionen um mehr Informationen über einzelne Pokemon anzeigen zu lassen
 
 async function openPokemonDetails(number) {
-  const mainContainer = document.getElementById("mainContainer");
+  const pkmDetailContainer = document.getElementById("detailedPkmContent");
   const currentPokemonInfoUrl = `https://pokeapi.co/api/v2/pokemon/${number}`;
   const response = await fetch(currentPokemonInfoUrl);
   const currentPokemonDetails = await response.json();
@@ -208,26 +208,24 @@ async function openPokemonDetails(number) {
   // Setze den aktuellen Index für Navigation
   currentPokemonIndex = loadedPkm.findIndex((pokemon) => pokemon.id === number);
 
-  mainContainer.innerHTML = "";
-  mainContainer.innerHTML = renderDetailsPokemonCard(
+  pkmDetailContainer.innerHTML = "";
+  pkmDetailContainer.innerHTML = renderDetailsPokemonCard(
     currentPokemonDetails,
     number,
     types,
     totalPokemonCount
   );
+
+  showDetailedPkmContainer();
 }
 
 function showPreviousPokemon() {
   if (currentPokemonIndex > 0) {
     currentPokemonIndex--; // Index verringern
-    console.log(
-      "Navigating to previous Pokémon. Current index:",
-      currentPokemonIndex
-    );
     const previousPokemon = loadedPkm[currentPokemonIndex];
     const { id, types } = previousPokemon;
 
-    document.getElementById("mainContainer").innerHTML =
+    document.getElementById("detailedPkmContent").innerHTML =
       renderDetailsPokemonCard(previousPokemon, id, types, loadedPkm.length);
   } else {
     alert("This is the first Pokémon!"); // Optional: Begrenzung anzeigen
@@ -237,14 +235,10 @@ function showPreviousPokemon() {
 function showNextPokemon() {
   if (currentPokemonIndex < loadedPkm.length - 1) {
     currentPokemonIndex++; // Index erhöhen
-    console.log(
-      "Navigating to next Pokémon. Current index:",
-      currentPokemonIndex
-    );
     const nextPokemon = loadedPkm[currentPokemonIndex];
     const { id, types } = nextPokemon;
 
-    document.getElementById("mainContainer").innerHTML =
+    document.getElementById("detailedPkmContent").innerHTML =
       renderDetailsPokemonCard(nextPokemon, id, types, loadedPkm.length);
   } else {
     alert("This is the last Pokémon!"); // Optional: Begrenzung anzeigen
@@ -294,6 +288,22 @@ function hideGoBackToStartButton() {
   }
 }
 
+function showDetailedPkmContainer() {
+  const blackOverlay = document.getElementById("blackOverlay");
+  if (blackOverlay) {
+    blackOverlay.classList.remove("hidden");
+    document.body.classList.add("no-scroll"); // Scrollen verhindern
+  }
+}
+
+function hideDetailedPkmContainer() {
+  const blackOverlay = document.getElementById("blackOverlay");
+  if (blackOverlay) {
+    blackOverlay.classList.add("hidden");
+    document.body.classList.remove("no-scroll"); // Scrollen wieder aktivieren
+  }
+}
+
 // Funktion zum löschen aller Elemente im Container "content" und um zur Startseite zurückzukehren
 
 function clearPokemonCards() {
@@ -303,6 +313,7 @@ function clearPokemonCards() {
 
 function resetToAllPokemon() {
   hideGoBackToStartButton(); // Verstecke den "Zurück"-Button
+  hideDetailedPkmContainer();
   showLoadMoreButton(); // Zeige den "Load More"-Button wieder an
   clearPokemonCards(); // Alte Karten löschen
   pokemonStartCount = 1; // Zähler zurücksetzen

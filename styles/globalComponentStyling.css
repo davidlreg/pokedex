@@ -16,6 +16,11 @@
   display: none;
 }
 
+/* Verhindert Scrollen */
+.no-scroll {
+  overflow: hidden;
+}
+
 a:link {
   text-decoration: none;
   color: white;
@@ -191,5 +196,9 @@ a:active {
 }
 
 .skipButtons > a:hover {
+  cursor: pointer;
+}
+
+.closeButtonContainer > a:hover {
   cursor: pointer;
 }
