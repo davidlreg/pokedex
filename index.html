@@ -13,7 +13,8 @@
     />
     <link rel="stylesheet" href="./styles/index.css" />
     <link rel="stylesheet" href="./styles/globalComponentStyling.css" />
-    <link rel="stylesheet" href="styles/backgroundColors.css" />
+    <link rel="stylesheet" href="./styles/backgroundColors.css" />
+    <link rel="stylesheet" href="styles/responsiveDesign.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
       rel="stylesheet"
@@ -60,47 +61,51 @@
       </nav>
 
       <main class="mainContentWrapper fullWidth" id="mainContainer">
-        <h1 id="totalPokemonCount"></h1>
-        <div class="content" id="content"></div>
-        <button
-          type="button"
-          class="btn btn-primary btn-lg"
-          id="loadMoreButton"
-          onclick="renderNextPokemon()"
-        >
-          Load more
-        </button>
+        <div class="content">
+          <h1 id="totalPokemonCount"></h1>
+          <div class="content" id="content"></div>
+          <button
+            type="button"
+            class="btn btn-primary btn-lg"
+            id="loadMoreButton"
+            onclick="renderNextPokemon()"
+          >
+            Load more
+          </button>
 
-        <button
-          type="button"
-          class="btn hidden btn-primary btn-lg"
-          id="goBackToStartBtn"
-          onclick="resetToAllPokemon()"
-        >
-          Go back to start
-        </button>
+          <button
+            type="button"
+            class="btn hidden btn-primary btn-lg"
+            id="goBackToStartBtn"
+            onclick="resetToAllPokemon()"
+          >
+            Go back to start
+          </button>
+        </div>
       </main>
 
       <footer class="bg-dark fullWidth customHeight">
-        <div class="contributions">
-          <a
-            href="https://www.flaticon.com/free-icons/pokemon"
-            title="pokemon icons"
-            >Pokemon icons created by Nikita Golubev - Flaticon</a
-          >
-          <a
-            href="https://www.flaticon.com/free-icons/pokedex"
-            title="pokedex icons"
-            >Pokedex icons created by Roundicons Freebies - Flaticon</a
-          >
-          <a
-            href="https://github.com/partywhale/pokemon-type-icons"
-            title="pokedemon type icons"
-            >Copyright (c) 2022 James Watkins - Pokemon type icons</a
-          >
-        </div>
-        <div>
-          <p class="copyright">© 2024 Copyright: David Gerliz</p>
+        <div class="footerContent">
+          <div class="contributions">
+            <a
+              href="https://www.flaticon.com/free-icons/pokemon"
+              title="pokemon icons"
+              >Pokemon icons created by Nikita Golubev - Flaticon</a
+            >
+            <a
+              href="https://www.flaticon.com/free-icons/pokedex"
+              title="pokedex icons"
+              >Pokedex icons created by Roundicons Freebies - Flaticon</a
+            >
+            <a
+              href="https://github.com/partywhale/pokemon-type-icons"
+              title="pokedemon type icons"
+              >Copyright (c) 2022 James Watkins - Pokemon type icons</a
+            >
+          </div>
+          <div class="copyrightContainer">
+            <p class="copyright">© 2024 Copyright: <span>David Gerliz</span></p>
+          </div>
         </div>
       </footer>
 
