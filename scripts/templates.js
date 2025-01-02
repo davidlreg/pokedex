@@ -1,10 +1,10 @@
-function pokemonCardTemplate(number, name, id) {
+function pokemonCardTemplate(cardId, name, id) {
   return `
      <div class="pokemonCard">
       <h2><span>Nr.${id}</span> ${name}</h2>
-      <div class="pokemonImg" id="picture-${number}"></div>
-      <div class="types" id="types-${number}"></div>
-      <div class="typeDescription" id="typeDescription-${number}"></div>
+      <div class="pokemonImg" id="picture-${cardId}"></div>
+      <div class="types" id="types-${cardId}"></div>
+      <div class="typeDescription" id="typeDescription-${cardId}"></div>
       <button type="button" class="btn btn-secondary" onclick="openPokemonDetails(${id})">More Info</button>
     </div>
     `;
@@ -51,77 +51,101 @@ function renderLoadingSpinner() {
   `;
 }
 
-function renderDetailsPokemonCard(
-  currentPokemonDetails,
-  id,
-  types,
-  abilities,
-  totalPokemonCount
-) {
-  const typesHTML = types
-    .map(
-      (type) =>
-        `<p class="type">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`
-    )
-    .join("");
-
-  const pkmAbilities = (abilities || [])
-    .map(
-      (ability) =>
-        `<p class="abilities">${
-          ability.charAt(0).toUpperCase() + ability.slice(1)
-        }</p>`
-    )
-    .join("");
-
+function renderDetailsPokemonCard(currentPokemon, id, types) {
   return `
   <div class="detailedPokemonCardWrapper">
     <!-- Schließen -->
-   <div class="closeButtonContainer">
-  <a onclick="hideDetailedPkmContainer()"><span class="material-symbols-outlined">close</span></a>
-</div>
+    <div class="closeButtonContainer">
+      <a onclick="hideDetailedPkmContainer()"><span class="material-symbols-outlined">close</span></a>
+    </div>
     <!-- Name und ID -->
     <div class="nameAndPkmNumber">
       <h2>${
-        currentPokemonDetails.name.charAt(0).toUpperCase() +
-        currentPokemonDetails.name.slice(1)
+        currentPokemon.name.charAt(0).toUpperCase() +
+        currentPokemon.name.slice(1)
       }</h2>
       <p>Nr.${id}</p>
     </div>
     <!-- Typen -->
-    <div class="pkmTypes">${typesHTML}</div>
+    <div class="pkmTypes">${types
+      .map(
+        (type) =>
+          `<p class="type">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`
+      )
+      .join("")}</div>
     <!-- Bild -->
     <div class="pkmImage">
-      <img src="${loadedPkm[id - 1].imageUrl}"}"/>
+      <img src="${currentPokemon.normal_version_pic}" />
     </div>
     <!-- Detail-Links -->
     <div class="detailedPkmInformation">
-      <a href="#">About</a>
-      <a href="#">Base Stats</a>
-      <a href="#">Shiny</a>
+      <a onclick="renderAboutSection()">About</a>
+      <a onclick="renderBaseStats()">Base Stats</a>
+      <a onclick="showShinyVersion()">Shiny</a>
     </div>
     <!-- Informationsbox -->
-    <div class="informationBox">
-      <p>Height:</p>
-      <p>Weight:</p>
-      <div class="pkmAbilities">
-      <span>Abilities:</span> ${pkmAbilities}
-      </div>
-      <h5>Breeding</h5>
-      <p>Gender:</p>
-      <p>Egg Groups:</p>
-      <p>Egg Cycle:</p>
-    </div>
+    <div class="informationBox" id="informationBox"></div>
     <!-- Navigation -->
     <div class="skipButtons">
       <a onclick="showPreviousPokemon()">
         <span class="material-symbols-outlined">arrow_back</span>
       </a>
-      <span>${id} / ${totalPokemonCount}</span>
+      <span>${id} / ${loadedPkm.length}</span>
       <a onclick="showNextPokemon()">
         <span class="material-symbols-outlined">arrow_forward</span>
       </a>
     </div>
   </div>
-`;
+  `;
+}
+
+function renderAboutSectionTemplate(pkmHeight, pkmWeight, pkmAbilities) {
+  // Falls pkmAbilities kein Array ist, mache es zu einem leeren Array
+  if (typeof pkmAbilities === "string") {
+    pkmAbilities = pkmAbilities.split(", "); // Trenne die Abilities in ein Array
+  } else if (!Array.isArray(pkmAbilities)) {
+    pkmAbilities = []; // Fallback, falls ein anderes Format vorliegt
+  }
+
+  return `
+    <div class="aboutSection">
+      <div class="pkmDetails" id="pkmHeight">
+        <span>Height:</span> <p>${pkmHeight} m</p>
+      </div>
+      <div class="pkmDetails" id="pkmWeight">
+        <span>Weight:</span> <p>${pkmWeight} kg</p>
+      </div>
+      <div class="pkmDetails" id="pkmAbilities">
+        <span>Abilities:</span>
+        ${pkmAbilities
+          .map(
+            (ability) =>
+              `<p class="abilities">${
+                ability.charAt(0).toUpperCase() + ability.slice(1)
+              }</p>`
+          )
+          .join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderBaseStatsTemplate() {
+  return `
+
+  <div class="baseStats">
+  <span>HP</span>
+  <span>Attack</span>
+  <span>Defense</span>
+  <span>Sp. Atk</span>
+  <span>Sp. Def</span>
+  <span>Speed</span>
+  <span>Total</span>
+  </div>
+  
+  `;
+}
+
+function showShinyVersion() {
+  console.log("Shiny Test");
 }
