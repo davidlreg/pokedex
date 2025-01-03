@@ -125,7 +125,9 @@ function renderPokemonCards() {
 
 function insertPokemonImage(cardId, normal_version_pic, types) {
   const pokemonPictureContainer = document.querySelector(`#picture-${cardId}`);
-  pokemonPictureContainer.innerHTML = `<img src="${normal_version_pic}" class="bg_${types[0]} fullWidth">`;
+  const imageSrc = normal_version_pic || fallbackImage; // Fallback-Bild verwenden, falls normal_version_pic nicht vorhanden ist
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse, falls keine Typen definiert sind
+  pokemonPictureContainer.innerHTML = `<img src="${imageSrc}" class="${typeClass} fullWidth">`;
 }
 
 function insertTypes(cardId, types) {

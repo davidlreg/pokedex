@@ -80,7 +80,7 @@ function renderDetailsPokemonCard(
       .join("")}</div>
     <!-- Bild -->
     <div class="pkmImage">
-      <img src="${currentPokemon.normal_version_pic}" />
+      <img src="${currentPokemon.normal_version_pic || fallbackImage}" />
     </div>
     <!-- Detail-Links -->
     <div class="detailedPkmInformation">

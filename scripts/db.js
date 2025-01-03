@@ -6,24 +6,25 @@ let loadedPkm = [];
 let pokemonStartCount = 1;
 let currentPokemonIndex = 0;
 let currentPokemonId = 0;
+const fallbackImage = "./assets/img/fallback_img_not_found.png";
 
 const typeToIcon = {
-  bug: "./assets/img/pokemonTypes/bug.svg",
-  dark: "./assets/img/pokemonTypes/dark.svg",
-  dragon: "./assets/img/pokemonTypes/dragon.svg",
-  electric: "./assets/img/pokemonTypes/electric.svg",
-  fairy: "./assets/img/pokemonTypes/fairy.svg",
-  fighting: "./assets/img/pokemonTypes/fighting.svg",
-  fire: "./assets/img/pokemonTypes/fire.svg",
-  flying: "./assets/img/pokemonTypes/flying.svg",
-  ghost: "./assets/img/pokemonTypes/ghost.svg",
-  grass: "./assets/img/pokemonTypes/grass.svg",
-  ground: "./assets/img/pokemonTypes/ground.svg",
-  ice: "./assets/img/pokemonTypes/ice.svg",
-  normal: "./assets/img/pokemonTypes/normal.svg",
-  poison: "./assets/img/pokemonTypes/poison.svg",
-  psychic: "./assets/img/pokemonTypes/psychic.svg",
-  rock: "./assets/img/pokemonTypes/rock.svg",
-  steel: "./assets/img/pokemonTypes/steel.svg",
-  water: "./assets/img/pokemonTypes/water.svg",
+  bug: "./assets/pokemonTypes/bug.svg",
+  dark: "./assets/pokemonTypes/dark.svg",
+  dragon: "./assets/pokemonTypes/dragon.svg",
+  electric: "./assets/pokemonTypes/electric.svg",
+  fairy: "./assets/pokemonTypes/fairy.svg",
+  fighting: "./assets/pokemonTypes/fighting.svg",
+  fire: "./assets/pokemonTypes/fire.svg",
+  flying: "./assets/pokemonTypes/flying.svg",
+  ghost: "./assets/pokemonTypes/ghost.svg",
+  grass: "./assets/pokemonTypes/grass.svg",
+  ground: "./assets/pokemonTypes/ground.svg",
+  ice: "./assets/pokemonTypes/ice.svg",
+  normal: "./assets/pokemonTypes/normal.svg",
+  poison: "./assets/pokemonTypes/poison.svg",
+  psychic: "./assets/pokemonTypes/psychic.svg",
+  rock: "./assets/pokemonTypes/rock.svg",
+  steel: "./assets/pokemonTypes/steel.svg",
+  water: "./assets/pokemonTypes/water.svg",
 };
