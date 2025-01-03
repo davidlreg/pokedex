@@ -1,10 +1,11 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-const limit = 25; // Anzahl der Pokémon pro Seite
+const limit = 30; // Anzahl der Pokémon pro Seite
 
 // Globale Variablen
 let loadedPkm = [];
 let pokemonStartCount = 1;
 let currentPokemonIndex = 0;
+let currentPokemonId = 0;
 
 const typeToIcon = {
   bug: "./assets/img/pokemonTypes/bug.svg",

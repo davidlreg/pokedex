@@ -213,19 +213,32 @@ function renderNextPokemon() {
   // Sortiere `loadedPkm` nach Pokémon-ID
   loadedPkm.sort((a, b) => a.id - b.id);
 
-  // Nächste 25 Pokémon aus dem `loadedPkm`-Array laden
-  const startIndex = loadedPkm.length;
-  const endIndex = startIndex + limit;
-  const nextPokemonList = loadedPkm.slice(startIndex, endIndex);
+  // Nächste Pokémon aus dem `loadedPkm`-Array laden
+  const startIndex = pokemonStartCount - 1;
+  const nextPokemonList = loadedPkm.slice(startIndex, startIndex + limit);
+
+  // Prüfe, ob es keine weiteren Pokémon mehr zu laden gibt
+  if (startIndex >= loadedPkm.length) {
+    hideLoadingSpinner();
+    showGoBackToStartButton(); // Zeige "Go Back to Start"-Button
+    return;
+  }
 
   // Pokémon-Karten ersetzen
   renderPokemonCards(nextPokemonList);
 
   // Aktualisiere den Startzähler direkt nach dem Hinzufügen
-  pokemonStartCount += limit;
+  pokemonStartCount += nextPokemonList.length;
+
+  // Prüfe, ob wir alle Pokémon geladen haben
+  if (pokemonStartCount > loadedPkm.length) {
+    hideLoadMoreButton();
+    showGoBackToStartButton();
+  } else {
+    showLoadMoreButton();
+  }
 
   hideLoadingSpinner();
-  showLoadMoreButton();
 }
 
 // Funktionen um mehr Informationen über einzelne Pokemon anzeigen zu lassen
@@ -233,19 +246,21 @@ function renderNextPokemon() {
 function openPokemonDetails(id) {
   const pkmDetailContainer = document.getElementById("detailedPkmContent");
 
-  // Pokemon-Daten aus dem geladenen Array extrahieren
-  const currentPokemon = loadedPkm.find((pokemon) => pokemon.id === id);
+  // Pokémon-Daten und Index basierend auf der ID finden
+  currentPokemonIndex = loadedPkm.findIndex((pokemon) => pokemon.id === id);
+  const currentPokemon = loadedPkm[currentPokemonIndex];
+  currentPokemonId = currentPokemon.id;
 
-  currentPokemonIndex = currentPokemon.id - 1;
-
-  // Extrahiere Typen, Fähigkeiten, Höhe und Gewicht aus den Daten
+  // Extrahiere Typen und andere Daten
   const types = currentPokemon.types || [];
 
+  // Pokémon-Details rendern
   pkmDetailContainer.innerHTML = "";
   pkmDetailContainer.innerHTML = renderDetailsPokemonCard(
     currentPokemon,
     id,
-    types
+    types,
+    currentPokemonIndex
   );
 
   showDetailedPkmContainer();
@@ -258,7 +273,12 @@ function showNextPokemon() {
     const nextPokemon = loadedPkm[currentPokemonIndex];
 
     document.getElementById("detailedPkmContent").innerHTML =
-      renderDetailsPokemonCard(nextPokemon, nextPokemon.id, nextPokemon.types);
+      renderDetailsPokemonCard(
+        nextPokemon,
+        nextPokemon.id,
+        nextPokemon.types,
+        currentPokemonIndex
+      );
 
     renderAboutSection(); // Höhe und Fähigkeiten weitergeben
   } else {
@@ -276,7 +296,8 @@ function showPreviousPokemon() {
       renderDetailsPokemonCard(
         previousPokemon,
         previousPokemon.id,
-        previousPokemon.types
+        previousPokemon.types,
+        currentPokemonIndex
       );
 
     renderAboutSection(); // Höhe und Fähigkeiten weitergeben

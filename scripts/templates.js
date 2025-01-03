@@ -51,7 +51,12 @@ function renderLoadingSpinner() {
   `;
 }
 
-function renderDetailsPokemonCard(currentPokemon, id, types) {
+function renderDetailsPokemonCard(
+  currentPokemon,
+  id,
+  types,
+  currentPokemonIndex
+) {
   return `
   <div class="detailedPokemonCardWrapper">
     <!-- Schließen -->
@@ -90,7 +95,7 @@ function renderDetailsPokemonCard(currentPokemon, id, types) {
       <a onclick="showPreviousPokemon()">
         <span class="material-symbols-outlined">arrow_back</span>
       </a>
-      <span>${id} / ${loadedPkm.length}</span>
+      <span>${currentPokemonIndex + 1} / ${loadedPkm.length}</span>
       <a onclick="showNextPokemon()">
         <span class="material-symbols-outlined">arrow_forward</span>
       </a>
