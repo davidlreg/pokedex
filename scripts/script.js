@@ -340,13 +340,13 @@ function renderBaseStats() {
   );
 }
 
-function showShinyVersion() {
+function renderShinyVersion() {
   const currentPokemon = loadedPkm[currentPokemonIndex];
   const types = currentPokemon.types || [];
 
   documentRef = document.getElementById("informationBox");
   documentRef.innerHTML = ""; // Platzhalter leeren
-  documentRef.innerHTML = renderShinyVersion(currentPokemon, types);
+  documentRef.innerHTML = renderShinyVersionTemplate(currentPokemon, types);
 }
 
 // Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button & Go back to Start Button
@@ -364,17 +364,17 @@ function hideLoadingSpinner() {
   }
 }
 
-function hideLoadMoreButton() {
-  const button = document.getElementById("loadMoreButton");
-  if (button) {
-    button.classList.add("hidden");
-  }
-}
-
 function showLoadMoreButton() {
   const button = document.getElementById("loadMoreButton");
   if (button) {
     button.classList.remove("hidden");
+  }
+}
+
+function hideLoadMoreButton() {
+  const button = document.getElementById("loadMoreButton");
+  if (button) {
+    button.classList.add("hidden");
   }
 }
 

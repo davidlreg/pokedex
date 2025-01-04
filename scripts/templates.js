@@ -92,7 +92,7 @@ function renderDetailsPokemonCard(
     <div class="detailedPkmInformation">
       <a onclick="renderAboutSection()">About</a>
       <a onclick="renderBaseStats()">Base Stats</a>
-      <a onclick="showShinyVersion()">Shiny</a>
+      <a onclick="renderShinyVersion()">Shiny</a>
     </div>
     <!-- Informationsbox -->
     <div class="informationBox" id="informationBox"></div>
@@ -175,7 +175,7 @@ function renderBaseStatsTemplate(
   `;
 }
 
-function renderShinyVersion(currentPokemon, types) {
+function renderShinyVersionTemplate(currentPokemon, types) {
   const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse für Bild
 
   return `
