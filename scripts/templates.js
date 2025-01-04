@@ -57,6 +57,8 @@ function renderDetailsPokemonCard(
   types,
   currentPokemonIndex
 ) {
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse für Bild
+
   return `
   <div class="detailedPokemonCardWrapper">
     <!-- Schließen -->
@@ -72,14 +74,18 @@ function renderDetailsPokemonCard(
       <p>Nr.${id}</p>
     </div>
     <!-- Typen -->
-    <div class="pkmTypes">${types
-      .map(
-        (type) =>
-          `<p class="type">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`
-      )
-      .join("")}</div>
+    <div class="pkmTypes" id="pokemonTypesContainer">
+      ${types
+        .map(
+          (type) =>
+            `<p class="type bg_${type.toLowerCase()}">${type
+              .charAt(0)
+              .toUpperCase() + type.slice(1)}</p>`
+        )
+        .join("")}
+    </div>
     <!-- Bild -->
-    <div class="pkmImage">
+    <div class="pkmImage ${typeClass}">
       <img src="${currentPokemon.normal_version_pic || fallbackImage}" />
     </div>
     <!-- Detail-Links -->
