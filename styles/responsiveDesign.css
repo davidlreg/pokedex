@@ -49,55 +49,57 @@
 
   .nameAndPkmNumber > h2 {
     font-size: 30px;
-}
+  }
 
-.pkmTypes > P {
+  .pkmTypes > P {
     font-size: 14px;
-}
+  }
 
-.pkmDetails > span {
+  .pkmDetails > span {
     font-size: 12px;
-}
+  }
 
-.pkmDetails > p {
+  .pkmDetails > p {
     font-size: 12px;
-}
+  }
 
-h5 {
+  h5 {
     font-size: 1.05rem;
-}
-
+  }
 }
 
 @media (max-width: 420px) {
-    .detailedPokemonCardWrapper {
-      width: 300px;
-      height: 660px;
-      gap: 4px;
-    }
+  .detailedPokemonCardWrapper {
+    width: 300px;
+    height: 660px;
+    gap: 4px;
+  }
 
-    .pkmImage > img {
-        width: 150px;
-    }
-  
-    .nameAndPkmNumber > h2 {
-      font-size: 30px;
+  .pkmImage > img {
+    width: 150px;
   }
-  
+
+  .detailedPkmImage > img {
+    width: 150px;
+  }
+
+  .nameAndPkmNumber > h2 {
+    font-size: 30px;
+  }
+
   .pkmTypes > P {
-      font-size: 14px;
+    font-size: 14px;
   }
-  
+
   .pkmDetails > span {
-      font-size: 12px;
+    font-size: 12px;
   }
-  
+
   .pkmDetails > p {
-      font-size: 12px;
+    font-size: 12px;
   }
-  
+
   h5 {
-      font-size: 1.05rem;
+    font-size: 1.05rem;
   }
-  
-  }
+}

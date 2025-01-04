@@ -55,6 +55,7 @@ async function fetchPokemonDetails(pokemonList) {
         const pokemonDetails = {
           id: data.id,
           name: pokemon.name,
+          species: data.species.name,
           normal_version_pic: data.sprites.front_default,
           types: data.types ? data.types.map((type) => type.type.name) : [],
           abilities: data.abilities
@@ -310,20 +311,43 @@ function showPreviousPokemon() {
 
 function renderAboutSection() {
   const pkmDetails = loadedPkm[currentPokemonIndex]; // Details für das aktuelle Pokémon holen
-  const { height, weight, abilities = "" } = pkmDetails; // Default-Wert für abilities setzen
+  const { species, height, weight, abilities = "" } = pkmDetails; // Default-Wert für abilities setzen
 
   const documentRef = document.getElementById("informationBox");
   documentRef.innerHTML = ""; // Platzhalter leeren
-  documentRef.innerHTML = renderAboutSectionTemplate(height, weight, abilities);
+  documentRef.innerHTML = renderAboutSectionTemplate(
+    species,
+    height,
+    weight,
+    abilities
+  );
 }
 
 function renderBaseStats() {
+  const pkmDetails = loadedPkm[currentPokemonIndex]; // Details für das aktuelle Pokémon holen
+  const { hp, attack, defense, sp_attack, sp_def, speed, total } = pkmDetails; // Default-Wert für abilities setzen
+
   documentRef = document.getElementById("informationBox");
-  documentRef.innerHTML = "";
-  documentRef.innerHTML = renderBaseStatsTemplate();
+  documentRef.innerHTML = ""; // Platzhalter leeren
+  documentRef.innerHTML = renderBaseStatsTemplate(
+    hp,
+    attack,
+    defense,
+    sp_attack,
+    sp_def,
+    speed,
+    total
+  );
 }
 
-function showShinyVersion() {}
+function showShinyVersion() {
+  const currentPokemon = loadedPkm[currentPokemonIndex];
+  const types = currentPokemon.types || [];
+
+  documentRef = document.getElementById("informationBox");
+  documentRef.innerHTML = ""; // Platzhalter leeren
+  documentRef.innerHTML = renderShinyVersion(currentPokemon, types);
+}
 
 // Funktionen zum Ein- und Ausblenden vom Loading-Spinner & Load more Button & Go back to Start Button
 

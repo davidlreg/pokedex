@@ -78,9 +78,9 @@ function renderDetailsPokemonCard(
       ${types
         .map(
           (type) =>
-            `<p class="type bg_${type.toLowerCase()}">${type
-              .charAt(0)
-              .toUpperCase() + type.slice(1)}</p>`
+            `<p class="type bg_${type.toLowerCase()}">${
+              type.charAt(0).toUpperCase() + type.slice(1)
+            }</p>`
         )
         .join("")}
     </div>
@@ -110,7 +110,12 @@ function renderDetailsPokemonCard(
   `;
 }
 
-function renderAboutSectionTemplate(pkmHeight, pkmWeight, pkmAbilities) {
+function renderAboutSectionTemplate(
+  pkmSpecies,
+  pkmHeight,
+  pkmWeight,
+  pkmAbilities
+) {
   // Falls pkmAbilities kein Array ist, mache es zu einem leeren Array
   if (typeof pkmAbilities === "string") {
     pkmAbilities = pkmAbilities.split(", "); // Trenne die Abilities in ein Array
@@ -120,20 +125,25 @@ function renderAboutSectionTemplate(pkmHeight, pkmWeight, pkmAbilities) {
 
   return `
     <div class="aboutSection">
+    <div class="pkmDetails" id="pkmSpecies">
+        <span>Species:</span> <p><b>${
+          pkmSpecies.charAt(0).toUpperCase() + pkmSpecies.slice(1)
+        }</b></p>
+      </div>
       <div class="pkmDetails" id="pkmHeight">
-        <span>Height:</span> <p>${pkmHeight} m</p>
+        <span>Height:</span> <p><b>${pkmHeight} m</b></p>
       </div>
       <div class="pkmDetails" id="pkmWeight">
-        <span>Weight:</span> <p>${pkmWeight} kg</p>
+        <span>Weight:</span> <p><b>${pkmWeight} kg</b></p>
       </div>
       <div class="pkmDetails" id="pkmAbilities">
         <span>Abilities:</span>
         ${pkmAbilities
           .map(
             (ability) =>
-              `<p class="abilities">${
+              `<p class="abilities"><b>${
                 ability.charAt(0).toUpperCase() + ability.slice(1)
-              }</p>`
+              }</b></p>`
           )
           .join("")}
       </div>
@@ -141,22 +151,40 @@ function renderAboutSectionTemplate(pkmHeight, pkmWeight, pkmAbilities) {
   `;
 }
 
-function renderBaseStatsTemplate() {
+function renderBaseStatsTemplate(
+  hp,
+  attack,
+  defense,
+  sp_attack,
+  sp_def,
+  speed,
+  total
+) {
   return `
 
   <div class="baseStats">
-  <span>HP</span>
-  <span>Attack</span>
-  <span>Defense</span>
-  <span>Sp. Atk</span>
-  <span>Sp. Def</span>
-  <span>Speed</span>
-  <span>Total</span>
+  <div class="stats"><span>HP</span><p><b>${hp}</b></p></div>
+  <div class="stats"><span>Attack</span><p><b>${attack}</b></p></div>
+  <div class="stats"><span>Defense</span><p><b>${defense}</b></p></div>
+  <div class="stats"><span>Sp. Atk</span><p><b>${sp_attack}</b></p></div>
+  <div class="stats"><span>Sp. Def</span><p><b>${sp_def}</b></p></div>
+  <div class="stats"><span>Speed</span><p><b>${speed}</b></p></div>
+  <div class="stats"><span>Total</span><p><b>${total}</b></p></div>
   </div>
   
   `;
 }
 
-function showShinyVersion() {
-  console.log("Shiny Test");
+function renderShinyVersion(currentPokemon, types) {
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse für Bild
+
+  return `
+  <div class="shinyPokemon" >
+  
+  <div class="detailedPkmImage ${typeClass}">
+      <img src="${currentPokemon.shiny_version_pic || fallbackImage}" />
+    </div>
+  
+  </div>
+  `;
 }

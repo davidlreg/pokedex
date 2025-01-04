@@ -98,7 +98,7 @@ a:active {
 
 .detailedPokemonCardWrapper {
   width: 550px;
-  height: 820px;
+  height: 100%;
   background-color: #ffffff;
   color: black;
   z-index: 5;
@@ -163,12 +163,17 @@ a:active {
 }
 
 .pkmDetails > p {
-  font-size: 14px;
   margin: 0;
 }
 
 .pkmImage > img {
   width: 250px;
+  height: auto;
+}
+
+.detailedPkmImage > img {
+  width: 250px;
+  height: auto;
 }
 
 .detailedPkmInformation {
@@ -184,6 +189,11 @@ a:active {
   margin: 0;
 }
 
+.detailedPkmInformation > a:hover {
+  cursor: pointer;
+  text-decoration: underline !important;
+}
+
 .informationBox {
   width: 100%;
   height: 300px;
@@ -191,7 +201,6 @@ a:active {
   flex-direction: column;
   justify-content: flex-start;
   gap: 8px;
-  padding: 16px 0px;
 }
 
 .informationBox > p {
@@ -218,6 +227,18 @@ a:active {
   margin: 0;
 }
 
+.stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+  gap: 16px;
+}
+
+.stats > p {
+  margin: 0;
+}
+
 .skipButtons {
   width: 100%;
   display: flex;
@@ -236,10 +257,22 @@ a:active {
 
 .aboutSection {
   width: 100%;
-  height: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: center;
   gap: 8px;
   padding: 16px 0px;
+}
+
+.shinyPokemon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detailedPkmImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
