@@ -51,12 +51,7 @@ function renderLoadingSpinner() {
   `;
 }
 
-function renderDetailsPokemonCard(
-  currentPokemon,
-  id,
-  types,
-  currentPokemonIndex
-) {
+function renderDetailsPokemonCard(currentPokemon, id, types, currentPokemonIndex) {
   const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
 
   return `
@@ -67,22 +62,12 @@ function renderDetailsPokemonCard(
     </div>
     <!-- Name und ID -->
     <div class="nameAndPkmNumber">
-      <h2>${
-        currentPokemon.name.charAt(0).toUpperCase() +
-        currentPokemon.name.slice(1)
-      }</h2>
+      <h2>${currentPokemon.name.charAt(0).toUpperCase() + currentPokemon.name.slice(1)}</h2>
       <p>Nr.${id}</p>
     </div>
     <!-- Typen -->
     <div class="pkmTypes" id="pokemonTypesContainer">
-      ${types
-        .map(
-          (type) =>
-            `<p class="type bg_${type.toLowerCase()}">${
-              type.charAt(0).toUpperCase() + type.slice(1)
-            }</p>`
-        )
-        .join("")}
+      ${types.map((type) => `<p class="type bg_${type.toLowerCase()}">${type.charAt(0).toUpperCase() + type.slice(1)}</p>`).join("")}
     </div>
     <!-- Bild -->
     <div class="pkmImage ${typeClass}">
@@ -101,7 +86,7 @@ function renderDetailsPokemonCard(
       <a onclick="showPreviousPokemon()">
         <span class="material-symbols-outlined">arrow_back</span>
       </a>
-      <span>${currentPokemonIndex + 1} / ${loadedPkm.length}</span>
+      <span>${currentPokemonIndex + 1} / ${totalPokemonCount}</span>
       <a onclick="showNextPokemon()">
         <span class="material-symbols-outlined">arrow_forward</span>
       </a>
@@ -110,12 +95,7 @@ function renderDetailsPokemonCard(
   `;
 }
 
-function renderAboutSectionTemplate(
-  pkmSpecies,
-  pkmHeight,
-  pkmWeight,
-  pkmAbilities
-) {
+function renderAboutSectionTemplate(pkmSpecies, pkmHeight, pkmWeight, pkmAbilities) {
   if (typeof pkmAbilities === "string") {
     pkmAbilities = pkmAbilities.split(", ");
   } else if (!Array.isArray(pkmAbilities)) {
@@ -125,9 +105,7 @@ function renderAboutSectionTemplate(
   return `
     <div class="aboutSection">
     <div class="pkmDetails" id="pkmSpecies">
-        <span>Species:</span> <p><b>${
-          pkmSpecies.charAt(0).toUpperCase() + pkmSpecies.slice(1)
-        }</b></p>
+        <span>Species:</span> <p><b>${pkmSpecies.charAt(0).toUpperCase() + pkmSpecies.slice(1)}</b></p>
       </div>
       <div class="pkmDetails" id="pkmHeight">
         <span>Height:</span> <p><b>${pkmHeight} m</b></p>
@@ -137,28 +115,13 @@ function renderAboutSectionTemplate(
       </div>
       <div class="pkmDetails" id="pkmAbilities">
         <span>Abilities:</span>
-        ${pkmAbilities
-          .map(
-            (ability) =>
-              `<p class="abilities"><b>${
-                ability.charAt(0).toUpperCase() + ability.slice(1)
-              }</b></p>`
-          )
-          .join("")}
+        ${pkmAbilities.map((ability) => `<p class="abilities"><b>${ability.charAt(0).toUpperCase() + ability.slice(1)}</b></p>`).join("")}
       </div>
     </div>
   `;
 }
 
-function renderBaseStatsTemplate(
-  hp,
-  attack,
-  defense,
-  sp_attack,
-  sp_def,
-  speed,
-  total
-) {
+function renderBaseStatsTemplate(hp, attack, defense, sp_attack, sp_def, speed, total) {
   return `
 
   <div class="baseStats">

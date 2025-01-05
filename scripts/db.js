@@ -1,5 +1,4 @@
-const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-const limit = 30;
+const BASE_URL = "https://pokeapi.co/api/v2/pokemon";
 const fallbackImage = "./assets/img/fallback_img_not_found.png";
 const typeToIcon = {
   bug: "./assets/pokemonTypes/bug.svg",
@@ -26,3 +25,6 @@ let loadedPkm = [];
 let pokemonStartCount = 1;
 let currentPokemonIndex = 0;
 let currentPokemonId = 0;
+let totalPokemonCount = 0;
+let offset = 0;
+const limit = 30;

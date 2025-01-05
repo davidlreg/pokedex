@@ -12,11 +12,21 @@ function init() {
 async function loadAndShowPkm() {
   hideLoadMoreButton();
   showLoadingSpinner();
-  await loadAndPrepareData();
+  await fetchNextBatch();
   renderPokemonCards();
   renderTotalPokemonCount(loadedPkm);
   hideLoadingSpinner();
   showLoadMoreButton();
+}
+
+async function fetchNextBatch() {
+  const response = await fetch(`${BASE_URL}?limit=${limit}&offset=${offset}`);
+  const data = await response.json();
+  const pokemonList = data.results;
+  totalPokemonCount = data.count;
+  const newPokemonDetails = await fetchPokemonDetails(pokemonList);
+  loadedPkm = [...loadedPkm, ...newPokemonDetails];
+  offset += limit;
 }
 
 async function loadAndPrepareData() {
@@ -88,15 +98,14 @@ function mapAbilities(abilitiesArray) {
 
 function renderPokemonCards() {
   const container = document.getElementById("content");
-  clearPokemonCards();
   container.classList.add("pokemonContainer");
   const startIndex = pokemonStartCount - 1;
   const pokemonToRender = loadedPkm.slice(startIndex, startIndex + limit);
-  pokemonToRender.forEach((loadedPkm, index) => {
+  pokemonToRender.forEach((pokemon, index) => {
     const cardId = pokemonStartCount + index;
-    container.innerHTML += pokemonCardTemplate(cardId, loadedPkm.name, loadedPkm.id);
-    insertPokemonImage(cardId, loadedPkm.normal_version_pic, loadedPkm.types);
-    insertTypes(cardId, loadedPkm.types);
+    container.innerHTML += pokemonCardTemplate(cardId, pokemon.name, pokemon.id);
+    insertPokemonImage(cardId, pokemon.normal_version_pic, pokemon.types);
+    insertTypes(cardId, pokemon.types);
   });
   pokemonStartCount += pokemonToRender.length;
 }
@@ -118,9 +127,9 @@ function insertTypes(cardId, types) {
   });
 }
 
-function renderTotalPokemonCount(loadedPkm) {
+function renderTotalPokemonCount() {
   let totalPokemonCountElement = document.getElementById("totalPokemonCount");
-  totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${loadedPkm.length}`;
+  totalPokemonCountElement.innerHTML = `Total Pokemon Count: ${totalPokemonCount}`;
 }
 
 function filterPokemon() {
@@ -178,23 +187,17 @@ function showNoResultsMessage(searchInput) {
   container.innerHTML = `<p class="no-results-message">No Pokémon found that match “${searchInput}”.</p>`;
 }
 
-function renderNextPokemon() {
-  const startIndex = pokemonStartCount - 1;
-  const nextPokemonList = loadedPkm.slice(startIndex, startIndex + limit);
+async function renderNextPokemon() {
   hideLoadMoreBtnShowLoadingScr();
-  loadedPkm.sort((a, b) => a.id - b.id);
-  if (handleEndOfPokemonList(startIndex, loadedPkm.length)) {
-    return;
-  }
-  loadAndPrepareData();
-  renderPokemonCards(nextPokemonList);
-  pokemonStartCount += nextPokemonList.length;
-  handleEndOfPokemonList(pokemonStartCount, loadedPkm.length);
+  await fetchNextBatch();
+  renderPokemonCards();
+  handleEndOfPokemonList(offset, totalPokemonCount);
   hideLoadingSpinner();
 }
 
-function handleEndOfPokemonList(currentIndex, totalPokemonCount) {
-  if (currentIndex >= totalPokemonCount) {
+function handleEndOfPokemonList(offset, totalPokemonCount) {
+  const allPokemonLoaded = offset >= totalPokemonCount;
+  if (allPokemonLoaded) {
     hideLoadMoreButton();
     showGoBackToStartButton();
     return true;
@@ -210,23 +213,50 @@ function openPokemonDetails(id) {
   const currentPokemon = loadedPkm[currentPokemonIndex];
   currentPokemonId = currentPokemon.id;
   const types = currentPokemon.types || [];
-
   pkmDetailContainer.innerHTML = "";
   pkmDetailContainer.innerHTML = renderDetailsPokemonCard(currentPokemon, id, types, currentPokemonIndex);
-
   showDetailedPkmContainer();
   renderAboutSection();
 }
 
-function showNextPokemon() {
-  if (currentPokemonIndex < loadedPkm.length - 1) {
-    currentPokemonIndex++;
-    const nextPokemon = loadedPkm[currentPokemonIndex];
-    document.getElementById("detailedPkmContent").innerHTML = renderDetailsPokemonCard(nextPokemon, nextPokemon.id, nextPokemon.types, currentPokemonIndex);
-    renderAboutSection();
+async function showNextPokemon() {
+  if (canNavigateToNextPokemon()) {
+    navigateToNextPokemon();
+  } else if (canLoadMorePokemon()) {
+    await loadNextBatchAndNavigate();
   } else {
     alert("This is the last Pokémon!");
   }
+}
+
+function canNavigateToNextPokemon() {
+  return currentPokemonIndex < loadedPkm.length - 1;
+}
+
+function navigateToNextPokemon() {
+  currentPokemonIndex++;
+  const nextPokemon = loadedPkm[currentPokemonIndex];
+  updatePokemonDetails(nextPokemon);
+}
+
+function canLoadMorePokemon() {
+  return offset < totalPokemonCount;
+}
+
+async function loadNextBatchAndNavigate() {
+  showLoadingSpinner();
+  await fetchNextBatch();
+  hideLoadingSpinner();
+
+  if (canNavigateToNextPokemon()) {
+    navigateToNextPokemon();
+    renderPokemonCards();
+  }
+}
+
+function updatePokemonDetails(pokemon) {
+  document.getElementById("detailedPkmContent").innerHTML = renderDetailsPokemonCard(pokemon, pokemon.id, pokemon.types, currentPokemonIndex);
+  renderAboutSection();
 }
 
 function showPreviousPokemon() {
