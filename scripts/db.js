@@ -1,13 +1,6 @@
 const BASE_URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0";
-const limit = 30; // Anzahl der Pokémon pro Seite
-
-// Globale Variablen
-let loadedPkm = [];
-let pokemonStartCount = 1;
-let currentPokemonIndex = 0;
-let currentPokemonId = 0;
+const limit = 30;
 const fallbackImage = "./assets/img/fallback_img_not_found.png";
-
 const typeToIcon = {
   bug: "./assets/pokemonTypes/bug.svg",
   dark: "./assets/pokemonTypes/dark.svg",
@@ -28,3 +21,8 @@ const typeToIcon = {
   steel: "./assets/pokemonTypes/steel.svg",
   water: "./assets/pokemonTypes/water.svg",
 };
+
+let loadedPkm = [];
+let pokemonStartCount = 1;
+let currentPokemonIndex = 0;
+let currentPokemonId = 0;

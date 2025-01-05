@@ -57,7 +57,7 @@ function renderDetailsPokemonCard(
   types,
   currentPokemonIndex
 ) {
-  const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse für Bild
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
 
   return `
   <div class="detailedPokemonCardWrapper">
@@ -116,11 +116,10 @@ function renderAboutSectionTemplate(
   pkmWeight,
   pkmAbilities
 ) {
-  // Falls pkmAbilities kein Array ist, mache es zu einem leeren Array
   if (typeof pkmAbilities === "string") {
-    pkmAbilities = pkmAbilities.split(", "); // Trenne die Abilities in ein Array
+    pkmAbilities = pkmAbilities.split(", ");
   } else if (!Array.isArray(pkmAbilities)) {
-    pkmAbilities = []; // Fallback, falls ein anderes Format vorliegt
+    pkmAbilities = [];
   }
 
   return `
@@ -176,7 +175,7 @@ function renderBaseStatsTemplate(
 }
 
 function renderShinyVersionTemplate(currentPokemon, types) {
-  const typeClass = types.length > 0 ? `bg_${types[0]}` : ""; // Fallback-Klasse für Bild
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
 
   return `
   <div class="shinyPokemon" >
