@@ -7,7 +7,7 @@ The end result is a fully responsive Pokédex that provides an overview of all P
 I also implemented a search function that allows you to filter Pokémon that have already been loaded by keyword.
 
 ## Table of Contents
-- [Getting Started](#getting_started)
+- [Getting Started](#getting-started)
 - [Contributing](#contributing)
 - [License](#license)
 
