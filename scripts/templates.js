@@ -1,3 +1,11 @@
+/**
+ * This function renders the HTML template for the individual Pokemon cards in the normal view.
+ *
+ * @param {number} cardId - Id of the currently displayed card
+ * @param {string} name - Name of the Pokemon displayed in each case
+ * @param {number} id - The ID of the respective Pokemon.
+ * @returns
+ */
 function pokemonCardTemplate(cardId, name, id) {
   return `
      <div class="pokemonCard">
@@ -10,6 +18,11 @@ function pokemonCardTemplate(cardId, name, id) {
     `;
 }
 
+/**
+ * This function is responsible for the Pokeball loading screen (user feedback)
+ *
+ * @returns HTML template of the loading screen
+ */
 function renderLoadingSpinner() {
   return ` 
   <svg 
@@ -51,6 +64,15 @@ function renderLoadingSpinner() {
   `;
 }
 
+/**
+ * This function renders the detailed view of the individual Pokemon.
+ *
+ * @param {object} currentPokemon - Object of the Pokemon in question with all available information.
+ * @param {number} id - The ID of the respective Pokemon.
+ * @param {Array} types - The current types of the respective Pokemon.
+ * @param {number} currentPokemonIndex - Index of the currently displayed Pokemon.
+ * @returns - HTML template of the detailed view of the individual Pokemon.
+ */
 function renderDetailsPokemonCard(currentPokemon, id, types, currentPokemonIndex) {
   const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
 
@@ -95,6 +117,15 @@ function renderDetailsPokemonCard(currentPokemon, id, types, currentPokemonIndex
   `;
 }
 
+/**
+ * This function returns the HTML template for the “About” section with basic information about the current Pokemon.
+ *
+ * @param {string} pkmSpecies - Species of the currently displayed Pokemon.
+ * @param {number} pkmHeight - Height of the currently displayed Pokemon.
+ * @param {number} pkmWeight - Weight of the currently displayed Pokemon.
+ * @param {string} pkmAbilities - Abilities of the current pokemon (e.g. Blaze Solar-power).
+ * @returns - HTML template with facts about the currently displayed Pokemon (e.g. size, weight).
+ */
 function renderAboutSectionTemplate(pkmSpecies, pkmHeight, pkmWeight, pkmAbilities) {
   if (typeof pkmAbilities === "string") {
     pkmAbilities = pkmAbilities.split(", ");
@@ -121,6 +152,18 @@ function renderAboutSectionTemplate(pkmSpecies, pkmHeight, pkmWeight, pkmAbiliti
   `;
 }
 
+/**
+ * This function displays the basic statistics of the respective Pokemon.
+ *
+ * @param {number} hp - HP of the current Pokemon.
+ * @param {number} attack - Attack of the current Pokemon.
+ * @param {number} defense - Defense of the current Pokemon.
+ * @param {number} sp_attack - Special Attack of the current Pokémon.
+ * @param {number} sp_def - Special Defense of the current Pokemon.
+ * @param {number} speed - Speed of the current Pokemon.
+ * @param {number} total - Total stats of the current Pokemon.
+ * @returns - HTML template with the Base stats of the current Pokemon.
+ */
 function renderBaseStatsTemplate(hp, attack, defense, sp_attack, sp_def, speed, total) {
   return `
 
@@ -137,6 +180,13 @@ function renderBaseStatsTemplate(hp, attack, defense, sp_attack, sp_def, speed, 
   `;
 }
 
+/**
+ * This function renders the corresponding Shiny version of the currently displayed Pokemon.
+ *
+ * @param {object} currentPokemon - Object of the Pokemon in question with all available information.
+ * @param {Array} types - The current types of the respective Pokemon.
+ * @returns - HTML template with the Shiny version of the current Pokemon.
+ */
 function renderShinyVersionTemplate(currentPokemon, types) {
   const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
 
