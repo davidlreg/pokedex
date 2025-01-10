@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: templates.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: templates.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This function renders the HTML template for the individual Pokemon cards in the normal view.
+ *
+ * @param {number} cardId - Id of the currently displayed card
+ * @param {string} name - Name of the Pokemon displayed in each case
+ * @param {number} id - The ID of the respective Pokemon.
+ * @returns - HTML template of the Pokemon cards in the normal view
+ */
+function pokemonCardTemplate(cardId, name, id) {
+  return `
+     &lt;div class="pokemonCard">
+      &lt;h2>&lt;span>Nr.${id}&lt;/span> ${name}&lt;/h2>
+      &lt;div class="pokemonImg" id="picture-${cardId}">&lt;/div>
+      &lt;div class="types" id="types-${cardId}">&lt;/div>
+      &lt;div class="typeDescription" id="typeDescription-${cardId}">&lt;/div>
+      &lt;button type="button" class="btn btn-secondary" onclick="openPokemonDetails(${id})">More Info&lt;/button>
+    &lt;/div>
+    `;
+}
+
+/**
+ * This function is responsible for the Pokeball loading screen (user feedback)
+ *
+ * @returns HTML template of the loading screen
+ */
+function renderLoadingSpinner() {
+  return ` 
+  &lt;svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    viewBox="0 0 100 100" 
+    width="100" 
+    height="100" 
+    aria-label="Pokeball Loading Spinner" 
+    role="img"
+    id="loadingSpinner"
+  &lt;!-- Pokeball Outer Circle -->
+  &lt;circle cx="50" cy="50" r="45" fill="white" stroke="black" stroke-width="5"/>
+  
+  &lt;!-- Top Half (Red) -->
+  &lt;path d="M5 50 A 45 45 0 0 1 95 50" fill="red" />
+  
+  &lt;!-- Bottom Half (White) -->
+  &lt;path d="M5 50 A 45 45 0 0 0 95 50" fill="white" />
+  
+  &lt;!-- Inner Circle (Black Outline) -->
+  &lt;circle cx="50" cy="50" r="10" fill="white" stroke="black" stroke-width="5"/>
+  
+  &lt;!-- Center Dot -->
+  &lt;circle cx="50" cy="50" r="5" fill="black" />
+
+  &lt;!-- Rotation Animation -->
+  &lt;style>
+    @keyframes rotatePokeball {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    svg {
+      animation: rotatePokeball 1.5s linear infinite;
+      transform-origin: center;
+    }
+  &lt;/style>
+&lt;/svg>
+  `;
+}
+
+/**
+ * This function renders the detailed view of the individual Pokemon.
+ *
+ * @param {object} currentPokemon - Object of the Pokemon in question with all available information.
+ * @param {number} id - The ID of the respective Pokemon.
+ * @param {Array} types - The current types of the respective Pokemon.
+ * @param {number} currentPokemonIndex - Index of the currently displayed Pokemon.
+ * @returns - HTML template of the detailed view of the individual Pokemon.
+ */
+function renderDetailsPokemonCard(currentPokemon, id, types, currentPokemonIndex) {
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
+
+  return `
+  &lt;div class="detailedPokemonCardWrapper">
+    &lt;!-- Schließen -->
+    &lt;div class="closeButtonContainer">
+      &lt;a onclick="hideDetailedPkmContainer()">&lt;span class="material-symbols-outlined">close&lt;/span>&lt;/a>
+    &lt;/div>
+    &lt;!-- Name und ID -->
+    &lt;div class="nameAndPkmNumber">
+      &lt;h2>${currentPokemon.name.charAt(0).toUpperCase() + currentPokemon.name.slice(1)}&lt;/h2>
+      &lt;p>Nr.${id}&lt;/p>
+    &lt;/div>
+    &lt;!-- Typen -->
+    &lt;div class="pkmTypes" id="pokemonTypesContainer">
+      ${types.map((type) => `&lt;p class="type bg_${type.toLowerCase()}">${type.charAt(0).toUpperCase() + type.slice(1)}&lt;/p>`).join("")}
+    &lt;/div>
+    &lt;!-- Bild -->
+    &lt;div class="pkmImage ${typeClass}">
+      &lt;img src="${currentPokemon.normal_version_pic || fallbackImage}" />
+    &lt;/div>
+    &lt;!-- Detail-Links -->
+    &lt;div class="detailedPkmInformation">
+      &lt;a onclick="renderAboutSection()">About&lt;/a>
+      &lt;a onclick="renderBaseStats()">Base Stats&lt;/a>
+      &lt;a onclick="renderShinyVersion()">Shiny&lt;/a>
+    &lt;/div>
+    &lt;!-- Informationsbox -->
+    &lt;div class="informationBox" id="informationBox">&lt;/div>
+    &lt;!-- Navigation -->
+    &lt;div class="skipButtons">
+      &lt;a onclick="showPreviousPokemon()">
+        &lt;span class="material-symbols-outlined">arrow_back&lt;/span>
+      &lt;/a>
+      &lt;span>${currentPokemonIndex + 1} / ${totalPokemonCount}&lt;/span>
+      &lt;a onclick="showNextPokemon()">
+        &lt;span class="material-symbols-outlined">arrow_forward&lt;/span>
+      &lt;/a>
+    &lt;/div>
+  &lt;/div>
+  `;
+}
+
+/**
+ * This function returns the HTML template for the “About” section with basic information about the current Pokemon.
+ *
+ * @param {string} pkmSpecies - Species of the currently displayed Pokemon.
+ * @param {number} pkmHeight - Height of the currently displayed Pokemon.
+ * @param {number} pkmWeight - Weight of the currently displayed Pokemon.
+ * @param {string} pkmAbilities - Abilities of the current pokemon (e.g. Blaze Solar-power).
+ * @returns - HTML template with facts about the currently displayed Pokemon (e.g. size, weight).
+ */
+function renderAboutSectionTemplate(pkmSpecies, pkmHeight, pkmWeight, pkmAbilities) {
+  if (typeof pkmAbilities === "string") {
+    pkmAbilities = pkmAbilities.split(", ");
+  } else if (!Array.isArray(pkmAbilities)) {
+    pkmAbilities = [];
+  }
+
+  return `
+    &lt;div class="aboutSection">
+    &lt;div class="pkmDetails" id="pkmSpecies">
+        &lt;span>Species:&lt;/span> &lt;p>&lt;b>${pkmSpecies.charAt(0).toUpperCase() + pkmSpecies.slice(1)}&lt;/b>&lt;/p>
+      &lt;/div>
+      &lt;div class="pkmDetails" id="pkmHeight">
+        &lt;span>Height:&lt;/span> &lt;p>&lt;b>${pkmHeight} m&lt;/b>&lt;/p>
+      &lt;/div>
+      &lt;div class="pkmDetails" id="pkmWeight">
+        &lt;span>Weight:&lt;/span> &lt;p>&lt;b>${pkmWeight} kg&lt;/b>&lt;/p>
+      &lt;/div>
+      &lt;div class="pkmDetails" id="pkmAbilities">
+        &lt;span>Abilities:&lt;/span>
+        ${pkmAbilities.map((ability) => `&lt;p class="abilities">&lt;b>${ability.charAt(0).toUpperCase() + ability.slice(1)}&lt;/b>&lt;/p>`).join("")}
+      &lt;/div>
+    &lt;/div>
+  `;
+}
+
+/**
+ * This function displays the basic statistics of the respective Pokemon.
+ *
+ * @param {number} hp - HP of the current Pokemon.
+ * @param {number} attack - Attack of the current Pokemon.
+ * @param {number} defense - Defense of the current Pokemon.
+ * @param {number} sp_attack - Special Attack of the current Pokémon.
+ * @param {number} sp_def - Special Defense of the current Pokemon.
+ * @param {number} speed - Speed of the current Pokemon.
+ * @param {number} total - Total stats of the current Pokemon.
+ * @returns - HTML template with the Base stats of the current Pokemon.
+ */
+function renderBaseStatsTemplate(hp, attack, defense, sp_attack, sp_def, speed, total) {
+  return `
+
+  &lt;div class="baseStats">
+  &lt;div class="stats">&lt;span>HP&lt;/span>&lt;p>&lt;b>${hp}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Attack&lt;/span>&lt;p>&lt;b>${attack}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Defense&lt;/span>&lt;p>&lt;b>${defense}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Sp. Atk&lt;/span>&lt;p>&lt;b>${sp_attack}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Sp. Def&lt;/span>&lt;p>&lt;b>${sp_def}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Speed&lt;/span>&lt;p>&lt;b>${speed}&lt;/b>&lt;/p>&lt;/div>
+  &lt;div class="stats">&lt;span>Total&lt;/span>&lt;p>&lt;b>${total}&lt;/b>&lt;/p>&lt;/div>
+  &lt;/div>
+  
+  `;
+}
+
+/**
+ * This function renders the corresponding Shiny version of the currently displayed Pokemon.
+ *
+ * @param {object} currentPokemon - Object of the Pokemon in question with all available information.
+ * @param {Array} types - The current types of the respective Pokemon.
+ * @returns - HTML template with the Shiny version of the current Pokemon.
+ */
+function renderShinyVersionTemplate(currentPokemon, types) {
+  const typeClass = types.length > 0 ? `bg_${types[0]}` : "";
+
+  return `
+  &lt;div class="shinyPokemon" >
+  
+  &lt;div class="detailedPkmImage ${typeClass}">
+      &lt;img src="${currentPokemon.shiny_version_pic || fallbackImage}" />
+    &lt;/div>
+  
+  &lt;/div>
+  `;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#calculateTotalStats">calculateTotalStats</a></li><li><a href="global.html#canLoadMorePokemon">canLoadMorePokemon</a></li><li><a href="global.html#canNavigateToNextPokemon">canNavigateToNextPokemon</a></li><li><a href="global.html#clearPokemonCards">clearPokemonCards</a></li><li><a href="global.html#fetchNextBatch">fetchNextBatch</a></li><li><a href="global.html#fetchPokedexData">fetchPokedexData</a></li><li><a href="global.html#fetchPokemonData">fetchPokemonData</a></li><li><a href="global.html#fetchPokemonDetails">fetchPokemonDetails</a></li><li><a href="global.html#filterPokemon">filterPokemon</a></li><li><a href="global.html#formatPokemonDetails">formatPokemonDetails</a></li><li><a href="global.html#getFilteredPokemon">getFilteredPokemon</a></li><li><a href="global.html#getSearchInput">getSearchInput</a></li><li><a href="global.html#handleEndOfPokemonList">handleEndOfPokemonList</a></li><li><a href="global.html#handleSearchResults">handleSearchResults</a></li><li><a href="global.html#hideDetailedPkmContainer">hideDetailedPkmContainer</a></li><li><a href="global.html#hideGoBackToStartButton">hideGoBackToStartButton</a></li><li><a href="global.html#hideLoadMoreBtnShowLoadingScr">hideLoadMoreBtnShowLoadingScr</a></li><li><a href="global.html#hideLoadMoreButton">hideLoadMoreButton</a></li><li><a href="global.html#hideLoadingScreenShowBackToStartBtn">hideLoadingScreenShowBackToStartBtn</a></li><li><a href="global.html#hideLoadingSpinner">hideLoadingSpinner</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#insertPokemonImage">insertPokemonImage</a></li><li><a href="global.html#insertTypes">insertTypes</a></li><li><a href="global.html#loadAndPrepareData">loadAndPrepareData</a></li><li><a href="global.html#loadAndShowPkm">loadAndShowPkm</a></li><li><a href="global.html#loadNextBatchAndNavigate">loadNextBatchAndNavigate</a></li><li><a href="global.html#mapAbilities">mapAbilities</a></li><li><a href="global.html#mapStats">mapStats</a></li><li><a href="global.html#mapTypes">mapTypes</a></li><li><a href="global.html#navigateToNextPokemon">navigateToNextPokemon</a></li><li><a href="global.html#openPokemonDetails">openPokemonDetails</a></li><li><a href="global.html#pokemonCardTemplate">pokemonCardTemplate</a></li><li><a href="global.html#renderAboutSection">renderAboutSection</a></li><li><a href="global.html#renderAboutSectionTemplate">renderAboutSectionTemplate</a></li><li><a href="global.html#renderBaseStats">renderBaseStats</a></li><li><a href="global.html#renderBaseStatsTemplate">renderBaseStatsTemplate</a></li><li><a href="global.html#renderDetailsPokemonCard">renderDetailsPokemonCard</a></li><li><a href="global.html#renderLoadingSpinner">renderLoadingSpinner</a></li><li><a href="global.html#renderNextPokemon">renderNextPokemon</a></li><li><a href="global.html#renderPokemonCards">renderPokemonCards</a></li><li><a href="global.html#renderSearchResults">renderSearchResults</a></li><li><a href="global.html#renderShinyVersion">renderShinyVersion</a></li><li><a href="global.html#renderShinyVersionTemplate">renderShinyVersionTemplate</a></li><li><a href="global.html#renderTotalPokemonCount">renderTotalPokemonCount</a></li><li><a href="global.html#resetToAllPokemon">resetToAllPokemon</a></li><li><a href="global.html#showDetailedPkmContainer">showDetailedPkmContainer</a></li><li><a href="global.html#showGoBackToStartButton">showGoBackToStartButton</a></li><li><a href="global.html#showLoadMoreButton">showLoadMoreButton</a></li><li><a href="global.html#showLoadingSpinner">showLoadingSpinner</a></li><li><a href="global.html#showNextPokemon">showNextPokemon</a></li><li><a href="global.html#showNoResultsMessage">showNoResultsMessage</a></li><li><a href="global.html#showPreviousPokemon">showPreviousPokemon</a></li><li><a href="global.html#updatePokemonDetails">updatePokemonDetails</a></li><li><a href="global.html#validateSearchInput">validateSearchInput</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Fri Jan 10 2025 13:38:17 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
  * @param {number} cardId - Id of the currently displayed card
  * @param {string} name - Name of the Pokemon displayed in each case
  * @param {number} id - The ID of the respective Pokemon.
- * @returns
+ * @returns - HTML template of the Pokemon cards in the normal view
  */
 function pokemonCardTemplate(cardId, name, id) {
   return `
